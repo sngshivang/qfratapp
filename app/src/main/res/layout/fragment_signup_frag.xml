@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:windowBackground">
+
+
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/signup_main"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/usrnme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:height="40dp"
+            android:autofillHints="@string/signem"
+            android:ems="10"
+            android:hint="@string/signem"
+            android:inputType="textWebEmailAddress"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview1" />
+
+        <EditText
+            android:id="@+id/usrpwd"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:height="30dp"
+            android:ems="10"
+            android:hint="@string/logusrpwd"
+            android:autofillHints="@string/logusrpwd"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrnme" />
+
+        <EditText
+            android:id="@+id/usrrepwd"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:height="30dp"
+            android:ems="10"
+            android:hint="@string/signre"
+            android:autofillHints="@string/signre"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrpwd" />
+
+        <EditText
+            android:id="@+id/usrflnme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:height="30dp"
+            android:autofillHints="@string/signnm"
+            android:ems="10"
+            android:hint="@string/signnm"
+            android:inputType="textPersonName|text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrrepwd" />
+
+        <EditText
+            android:id="@+id/usrmob"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:height="30dp"
+            android:autofillHints="@string/signmob"
+            android:ems="10"
+            android:hint="@string/signmob"
+            android:inputType="phone"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrflnme" />
+
+        <EditText
+            android:id="@+id/usrcolyr"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:height="30dp"
+            android:autofillHints="@string/signcol"
+            android:ems="10"
+            android:hint="@string/signcol"
+            android:inputType="text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrmob" />
+
+        <Button
+            android:id="@+id/signupbut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signupbut"
+            android:onClick="signup"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/usrcolyr"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/signupvcapt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/captcha"
+            android:onClick="vfcaptcha"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/signupbut"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

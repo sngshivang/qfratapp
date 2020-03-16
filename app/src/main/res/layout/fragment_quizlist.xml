@@ -1,0 +1,39 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:id="@+id/content_frame"
+    android:layout_width="match_parent"
+    android:background="?android:windowBackground"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/qzlist_h1"
+            android:textColor="#663399"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <ListView
+            android:id="@+id/qzlist"
+            android:layout_width="match_parent"
+            android:layout_height= "600dp"
+            tools:layout_editor_absoluteX="17dp"
+            tools:layout_editor_absoluteY="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview1"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

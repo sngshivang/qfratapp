@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:background="@drawable/qzlist">
+
+    <TextView
+        android:id="@+id/qzname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="@string/qzlst_h1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/totprz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/qzname"
+        android:ellipsize="marquee"
+        android:text="@string/qzlst_h2"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:ellipsize="marquee"
+        android:text="@string/qzlst_h4"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/startdt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/start"
+        android:layout_marginEnd="25dp"
+        android:ellipsize="marquee"
+        android:textAlignment="center"
+        android:text="@string/qzlst_h2"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/totmn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/startdt"
+        android:layout_marginEnd="25dp"
+        android:ellipsize="marquee"
+        android:textAlignment="center"
+        android:text="@string/qzlst_h2"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/totques"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/totmn"
+        android:layout_marginEnd="25dp"
+        android:ellipsize="marquee"
+        android:textAlignment="center"
+        android:text="@string/qzlst_h2"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/wrthprz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/totprz"
+        android:ellipsize="marquee"
+        android:text="@string/qzlst_h3"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/accbut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/wrthprz"
+        android:ellipsize="marquee"
+        android:text="@string/qzlst_h5"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+
+</RelativeLayout>

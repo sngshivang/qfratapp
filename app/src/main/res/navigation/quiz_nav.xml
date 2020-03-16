@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quiz_nav"
+    app:startDestination="@id/quizlist">
+
+    <fragment
+        android:id="@+id/mainquiz"
+        android:name="com.share.contrify.qfrat.mainquiz"
+        android:label="fragment_mainquiz"
+        tools:layout="@layout/fragment_mainquiz" />
+    <fragment
+        android:id="@+id/ftf"
+        android:name="com.share.contrify.qfrat.ftf"
+        android:label="fragment_ftf"
+        tools:layout="@layout/fragment_ftf" />
+    <fragment
+        android:id="@+id/quizlist"
+        android:name="com.share.contrify.qfrat.quizlist"
+        android:label="fragment_quizlist"
+        tools:layout="@layout/fragment_quizlist" />
+</navigation>

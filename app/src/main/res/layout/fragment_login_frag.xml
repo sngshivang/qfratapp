@@ -1,0 +1,92 @@
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:background="?android:windowBackground"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/loginnn"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/usrnme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:height="40dp"
+            android:autofillHints="@string/logusrhnt"
+            android:ems="10"
+            android:hint="@string/logusrhnt"
+            android:inputType="textWebEmailAddress"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview1" />
+
+        <EditText
+            android:id="@+id/usrpwd"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:height="30dp"
+            android:ems="10"
+            android:hint="@string/logusrpwd"
+            android:autofillHints="@string/logusrpwd"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usrnme" />
+
+        <Button
+            android:id="@+id/loginbut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loginbut"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/usrpwd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/signupbut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signupbut"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/loginbut"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/googsignin"/>
+
+        <Button
+            android:id="@+id/googsignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/googsignin"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/loginbut"
+            app:layout_constraintStart_toEndOf="@id/signupbut"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

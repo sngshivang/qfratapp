@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/drawer_layout"
+    android:background="#eef0f2"
+    android:layout_height="match_parent"
+    tools:context=".login_signup">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#004275"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <TextView
+                android:id="@+id/textview1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/calibri"
+                android:text="@string/loginnn"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_toolbar">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/usrnme"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:height="40dp"
+                android:autofillHints="@string/logusrhnt"
+                android:ems="10"
+                android:hint="@string/logusrhnt"
+                android:inputType="textWebEmailAddress"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview1" />
+
+            <EditText
+                android:id="@+id/usrpwd"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp"
+                android:height="30dp"
+                android:ems="10"
+                android:hint="@string/logusrpwd"
+                android:autofillHints="@string/logusrpwd"
+                android:inputType="textPassword"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usrnme" />
+
+            <Button
+                android:id="@+id/loginbut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loginbut"
+                android:onClick="login"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/usrpwd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/signupbut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signupbut"
+                android:onClick="signup"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/loginbut"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/googsignin"/>
+
+            <Button
+                android:id="@+id/googsignin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/googsignin"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/loginbut"
+                app:layout_constraintStart_toEndOf="@id/signupbut"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!--<android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        app:itemTextColor="@android:color/holo_purple"
+        app:headerLayout="@layout/nav_headernew"
+        android:background= "@android:color/black">
+
+
+    </android.support.design.widget.NavigationView>-->
+
+</androidx.drawerlayout.widget.DrawerLayout>

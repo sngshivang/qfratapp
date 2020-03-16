@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_file"
+    app:startDestination="@id/testfragment">
+
+    <activity
+        android:id="@+id/login_signup3"
+        android:name="com.share.contrify.qfrat.login_signup"
+        android:label="activity_login_signup"
+        tools:layout="@layout/activity_login_signup" />
+    <fragment
+        android:id="@+id/testfragment"
+        android:name="com.share.contrify.qfrat.testfragment"
+        android:label="fragment_testfragment"
+        tools:layout="@layout/fragment_testfragment" />
+    <fragment
+        android:id="@+id/signup_frag"
+        android:name="com.share.contrify.qfrat.signup_frag"
+        android:label="fragment_signup_frag"
+        tools:layout="@layout/fragment_signup_frag" >
+        <action
+            android:id="@+id/action_signup_frag_to_testfragment"
+            app:destination="@id/testfragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/login_frag"
+        android:name="com.share.contrify.qfrat.login_frag"
+        android:label="fragment_login_frag"
+        tools:layout="@layout/fragment_login_frag" />
+    <fragment
+        android:id="@+id/sess_reset"
+        android:name="com.share.contrify.qfrat.sess_reset"
+        android:label="fragment_sess_reset"
+        tools:layout="@layout/fragment_sess_reset" />
+    <fragment
+        android:id="@+id/attemptlogin"
+        android:name="com.share.contrify.qfrat.attemptlogin"
+        android:label="fragment_attemptlogin"
+        tools:layout="@layout/fragment_attemptlogin" >
+        <action
+            android:id="@+id/action_attemptlogin_to_testfragment"
+            app:destination="@id/testfragment" />
+    </fragment>
+
+
+</navigation>
