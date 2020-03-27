@@ -10,29 +10,44 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        tools:layout_editor_absoluteX="-63dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <Button
-        android:id="@+id/frag_but_one"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="40dp"
-        android:text="Button"
+        android:text="@string/newsfrag_h1"
+        android:id="@+id/header"
+        android:layout_marginTop="0dp"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:background="#663399"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textSize="20sp"
+        />
 
-    <Button
-        android:id="@+id/frag_but_two"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/qzlist"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="40dp"
-        android:text="OTHER ACT"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="1dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frag_but_one"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"/>
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/redo_white"
+        android:layout_marginTop="5dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="229dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

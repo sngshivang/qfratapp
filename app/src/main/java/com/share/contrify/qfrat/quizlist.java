@@ -1,6 +1,7 @@
 package com.share.contrify.qfrat;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -97,8 +101,10 @@ public class quizlist extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainview = inflater.inflate(R.layout.fragment_quizlist, container, false);
+
         instant();
         sendreq();
+        listeners();
         adb = new AlertDialog.Builder(getActivity());
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -178,9 +184,21 @@ public class quizlist extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
         void sendtoparent(int pos);
+        void quizlistfrag();
     }
     private void sendreq()
     {
+        /*LayoutInflater li = getLayoutInflater();
+        View alertLayout = li.inflate(R.layout.alert_spin, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("Info");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        alert.show();*/
+        TextView tv = mainview.findViewById(R.id.textview1);
+        tv.setText(getResources().getString(R.string.qzlst_h6));
+        ProgressBar pr = mainview.findViewById(R.id.progressBar2);
+        pr.setVisibility(View.VISIBLE);
         network nw = new network();
         nw.qz  = this;
         nw.execute("4");
@@ -188,7 +206,20 @@ public class quizlist extends Fragment {
 
     protected void retcall(String inp)
     {
+        Log.i("RETCALL",inp);
+        TextView tv = mainview.findViewById(R.id.textview1);
+        ProgressBar pr = mainview.findViewById(R.id.progressBar2);
+        pr.setVisibility(View.GONE);
+        if (inp.equals("ERR"))
+        {
+            tv.setText(getResources().getString(R.string.qzlst_h7));
+            ImageButton ib = mainview.findViewById(R.id.imageButton);
+            ib.setVisibility(View.VISIBLE);
+        }
+        else {
         try{
+            tv.setText(getResources().getString(R.string.qzlist_h1));
+            lst.setVisibility(View.VISIBLE);
             JSONObject js = new JSONObject(inp);
             qname = new JSONArray(js.getString("qname"));
             universals.arl.add(new JSONArray(js.getString("qid")));
@@ -227,6 +258,17 @@ public class quizlist extends Fragment {
         {
             Log.e("quizlist", e.toString());
         }
+        }
 
+    }
+    private void listeners()
+    {
+        ImageButton ib = mainview.findViewById(R.id.imageButton);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendreq();
+            }
+        });
     }
 }

@@ -13,6 +13,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class network_res extends AsyncTask <String, Integer, String> {
     mainquiz mq = null;
+    newsfrag nf = null;
+    private String pref = null, fl = null;
 
     @Override
     public void onPreExecute()
@@ -21,7 +23,8 @@ public class network_res extends AsyncTask <String, Integer, String> {
     }
     @Override
     public String doInBackground(String... params) {
-        String pref = params[0],url="",fl="";
+        pref = params[0]; fl ="";String url="";
+        String out= "";
 
         try {
             if (pref.equals("0")) {
@@ -29,6 +32,12 @@ public class network_res extends AsyncTask <String, Integer, String> {
                 String qud = params[1];
                 fl = qud + "_pic.png";url = "https://www.qfrat.co.in/media/pictures/";
                 url += fl;
+            }
+            else if (pref.equals("1"))
+            {
+                url = params[1];
+                fl = params[2];
+
             }
             URL urlu = new URL(url);
             HttpsURLConnection hc = (HttpsURLConnection)urlu.openConnection();
@@ -40,7 +49,6 @@ public class network_res extends AsyncTask <String, Integer, String> {
             // this will be useful to display download percentage
             // might be -1: server did not report the length
             int fileLength = hc.getContentLength();
-
             // download the file
             InputStream input = hc.getInputStream();
             FileOutputStream output = new FileOutputStream(new File(universals.stpth, fl));
@@ -64,14 +72,28 @@ public class network_res extends AsyncTask <String, Integer, String> {
         catch (Exception e)
         {
             Log.e("network_res",e.toString());
+            out = "ERR";
         }
-        return  null;
+        return  out;
     }
     @Override
     protected void onProgressUpdate (Integer... val)
     {
         super.onProgressUpdate(val);
+        if (pref.equals("0"))
         mq.upprog(val[0]);
+        else if (pref.equals("1"))
+            nf.upprog(val[0], fl);
 
+    }
+    @Override
+    protected void onPostExecute(String inp)
+    {
+        if (inp.equals("ERR")) {
+            if (pref.equals("0"))
+                mq.reserr(inp);
+            else if (pref.equals("1"))
+                nf.reserr(inp);
+        }
     }
     }

@@ -28,6 +28,7 @@
     <string name="mainquiz_h3">You must ensure absolutely correct spellings. Please Google them as required.</string>
     <string name="mainquiz_h4">Please wait while resources are loading&#8230;</string>
     <string name="mainquiz_h7">0% Complete</string>
+    <string name="mainquiz_h8">You have already answered this questions.\nRe-submit to modify</string>
     <string name="mainquiz_h5">Failed to load the resource. Do you want to</string>
     <string name="mainquiz_h6">Retry?</string>
     <string name="mainquiz_b1">Submit</string>
@@ -36,9 +37,9 @@
     <string name="ftf_h1"><u>Please read Carefully</u></string>
     <string name="ftf_h2">Questions and Answers: Here are some things you must keep in mind before starting the quiz.</string>
     <string name="ftf_h3">\u2022 The marks for correct and wrong answers and shown in the question itself. Pay attention.\n\u2022 Click on \"Matrix\" to view answered &amp; unanswered questions.\n\u2022 In case you are logged out for any reason, don\'t panic- You can login again and start from where you have left.\n\u2022 Quiz master is always right! \n\u2022 The server might stop responding at times and the page might throw an error. You can close and reopen the app to continue.</string>
-    <string name="ftf_h4">How should you answer!</string>
+    <string name="ftf_h4"><u>How should you answer!</u></string>
     <string name="ftf_h5">Here are some examples of acceptable submissions in case the answer is Mahatma Gandhi. (Two worded Answer)\n\u2022 mahatma gandhi: Most acceptable answer.\n\u2022 MAHATMA GANDHI: Acceptable answer.\n\u2022 Mohandas karamchand Gandhi:Not acceptable answer (two worded is mentioned)\n\u2022 MK Gandhi: Not an acceptable answer.</string>
-    <string name="ftf_h6">How are the results declared.</string>
+    <string name="ftf_h6"><u>How are the results declared.</u></string>
     <string name="ftf_h7">Results for this contest will be announced soon after the end of the quiz.\n\u2022 In case the participants score equal points, they will be sorted in order of increasing time. That is, the person attaining the point in least time will be ahead in points table.\n\u2022 Correct Answers will be announced after the end of the quiz.\n\u2022 In case you believe that your correct answer has been marked as incorrect, you are free to contact us at support@qfrat.co.in with Subject- "Marking error". We will revert back to you shortly.</string>
     <string name="ftf_h8">I have read all terms and condition and agree to abide by them</string>
     <string name="ftf_b1">START QUIZ</string>
@@ -48,7 +49,21 @@
     <string name="qzlst_h3">Worth Prizes</string>
     <string name="qzlst_h4">Starts:</string>
     <string name="qzlst_h5">N\/A</string>
+    <string name="qzlst_h6">Please wait while we fetch the quiz list for you&#8230;</string>
+    <string name="qzlst_h7">We are unable to fetch the quiz list. Please check your internet connection &amp; try again.</string>
     <string name="atmpt_h1">Attempting to Log you in using your previous login credentials. Please wait&#8230;</string>
+    <string name="qzplay_b1">MATRIX</string>
+    <string name="qzplay_b2">GOTO</string>
+    <string name="qzplay_h1">\/ NA</string>
+    <string name="qzplay_h2">NA:NA</string>
+    <string name="qzplay_h3">Enter question number to jump to</string>
+    <string name="newsfrag_h1">TOP HEADLINES</string>
+    <string name="lvn_h1">Failed to fetch the feed list. Please try again later.</string>
+    <string name="newsfrag_h2">NOT LOADED</string>
+    <string name="newsfrag_h3">You are seeing this as the components have not been correctly loaded. Please refresh this app.</string>
+    <string name="newsfrag_h4">Click here to visit this article\'s news website.</string>
+    <string name="newsfrag_h5">|| NOT AVAILABLE</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -144,7 +144,7 @@ public class attemptlogin extends Fragment {
             String alst= null;
             if (cd ==6)
             {
-                ri = 8;
+                ri = 4;
                 task = new Handler(Looper.getMainLooper());
                 task.postDelayed(newexp, 1000);
             }

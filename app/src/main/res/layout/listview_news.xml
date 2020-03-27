@@ -1,0 +1,18 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:background="#E4D3F5">
+
+    <TextView
+        android:id="@+id/newstit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/lvn_h1"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>

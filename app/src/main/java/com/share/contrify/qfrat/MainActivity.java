@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
 import androidx.navigation.NavOptions;
@@ -19,6 +21,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -34,7 +38,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class MainActivity extends AppCompatActivity implements signup_frag.OnFragmentInteractionListener, testfragment.OnFragmentInteractionListener, login_frag.OnFragmentInteractionListener, sess_reset.OnFragmentInteractionListener, attemptlogin.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements signup_frag.OnFragmentInteractionListener, testfragment.OnFragmentInteractionListener, login_frag.OnFragmentInteractionListener, sess_reset.OnFragmentInteractionListener, attemptlogin.OnFragmentInteractionListener, newsfrag.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +84,31 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
     Toolbar mytoolbar;
     NavController navController;
     NavigationView navView;
+    static JSONObject jsb;
+    static JSONArray news;
+    static int newspos;
     @Override
     public boolean onSupportNavigateUp() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, apbr)
                 || super.onSupportNavigateUp();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miProfile:
+                FragmentManager fr = this.getSupportFragmentManager();
+                FragmentTransaction ft = fr.beginTransaction();
+                login_frag lf = new login_frag();
+                ft.replace(R.id.nav_host_fragment, lf);
+                ft.commit();
+                return  true;
+                default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override

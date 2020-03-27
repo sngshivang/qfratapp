@@ -11,12 +11,27 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.share.contrify.qfrat.MainActivity.jsb;
+import static com.share.contrify.qfrat.MainActivity.news;
 
 
 /**
@@ -32,6 +47,12 @@ public class testfragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private View mainview;
+    private ListView lst;
+    private ArrayList<newsfield> al;
+    private newsadap nz;
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,31 +96,12 @@ public class testfragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i("Hello","this is a statement");
-        View view = inflater.inflate(R.layout.fragment_testfragment,
+        mainview = inflater.inflate(R.layout.fragment_testfragment,
                 container, false);
-        Button button = view.findViewById(R.id.frag_but_one);
-        Button bt2 = view.findViewById(R.id.frag_but_two);
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(getActivity(), quizplay.class);
-                startActivity(it);
-            }
-        });
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                login_frag sf = new login_frag();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, sf);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-        return view;
+        instant();
+        sendreq();
+        listeners();
+        return mainview;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -139,5 +141,85 @@ public class testfragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private  void instant()
+    {
+        lst = mainview.findViewById(R.id.qzlist);
+        al = new ArrayList<>();
+        nz = new newsadap(getContext(),al);
+    }
+    private void lstfiller(String comb)
+    {
+        newsfield ifo = new newsfield(comb);
+        nz.add(ifo);
+        lst.setAdapter(nz);
+    }
+    private void sendreq()
+    {
+        if (jsb==null) {
+            network nt = new network();
+            nt.tf = this;
+            nt.execute("10");
+        }
+        else
+            retcall(jsb.toString());
+    }
+    public void retcall(String inp)
+    {
+        Log.i("retcall",inp);
+        Spanned txtur;
+        String tit, url, imgur, stat;
+        try{
+            jsb = new JSONObject(inp);
+            stat = jsb.getString("status");
+            int lnks = 0;
+            if (stat.equals("ok"))
+            {
+                lnks = jsb.getInt("totalResults");
+                news = new JSONArray(jsb.getString("articles"));
+                for (int i = 0;i< 20; i++)
+                {
+                    String col = news.getString(i);
+                    JSONObject insrc = new JSONObject(col);
+                    tit = insrc.getString("title");
+                    url = insrc.getString("url");
+                    imgur = insrc.getString("urlToImage");
+                    txtur = Html.fromHtml("<a href = '"+url+"'>"+tit+"</a>");
+                    lstfiller(tit);
+
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("testfragment",e.toString());
+        }
+
+    }
+    private void listeners()
+    {
+        ImageButton bt = mainview.findViewById(R.id.imageButton3);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendreq();
+            }
+        });
+        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos,
+                                    long id) {
+                MainActivity.newspos = pos;
+                newsfrag nfg = new newsfrag();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.slide_out_right,
+                        android.R.anim.slide_in_left);
+                fragmentTransaction.replace(R.id.nav_host_fragment, nfg);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+            });
     }
 }

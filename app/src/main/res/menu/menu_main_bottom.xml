@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/atten_exclaim"
+        android:title="TEST1" />
+
+    <item
+        android:id="@+id/navigation_gifts"
+        android:icon="@drawable/hamburg_icon"
+        android:title="TEST2" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/hamburg_icon"
+        android:title="TEST3" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/happy_person"
+        android:title="TEST4" />
+
+</menu>

@@ -6,8 +6,11 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class network extends AsyncTask <String,Void,String> {
 
@@ -16,7 +19,9 @@ public class network extends AsyncTask <String,Void,String> {
     quizlist qz = null;
     ftf ft = null;
     attemptlogin al = null;
+    mainquiz nmq = null;
     String pref = "";
+    testfragment tf = null;
     @Override
     public void onPreExecute()
     {
@@ -71,18 +76,44 @@ public class network extends AsyncTask <String,Void,String> {
                 url = "https://www.qfrat.co.in/php/qms_questions.php";
                 data = "fn=quesall";
             }
+            else if (pref.equals("8"))
+            {
+                url = "https://www.qfrat.co.in/php/qms_questions.php";
+                data = "fn=ldr";
+            }
+            else if (pref.equals("9"))
+            {
+                String ans = params[1];
+                String qns = params[2];
+                url = "https://www.qfrat.co.in/php/qms_questions.php";
+                data = "fn=ansfet&qno="+qns+"&ans="+ans;
+            }
+            else if (pref.equals("10"))
+            {
+                url = "http://newsapi.org/v2/top-headlines?" +
+                    "country=us&" +
+                    "apiKey=250aa58578a64814abcc32e58c068b30";
+            }
             URL urlu = new URL(url);
-            URLConnection conn = urlu.openConnection();
+            HttpURLConnection conn = (HttpURLConnection)urlu.openConnection();
             String reqst;
             if (!universals.phpsess.equals("nf")) {
                 reqst = "PHPSESSID=" + universals.phpsess + "; email=occupied;";
                 conn.setRequestProperty("Cookie", reqst);
             }
-            //conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
+            if (pref.equals("10")) {
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 ");
+
+            }
+            else {
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+            }
+            int resp = conn.getResponseCode();
+            Log.i("resp",String.valueOf(resp));
             BufferedReader reader = new BufferedReader(new
                     InputStreamReader(conn.getInputStream()));
 
@@ -98,6 +129,7 @@ public class network extends AsyncTask <String,Void,String> {
         }
         catch (Exception e)
         {
+            send = "ERR";
             Log.e("network",e.toString());
         }
         Log.i("output",send);
@@ -122,5 +154,11 @@ public class network extends AsyncTask <String,Void,String> {
             ft.retcallques(inp);
         else if (pref.equals("7"))
             al.retcall(inp);
+        else if (pref.equals("8"))
+            nmq.retans(inp, false);
+        else if (pref.equals("9"))
+            nmq.retans(inp, true);
+        else if (pref.equals("10"))
+            tf.retcall(inp);
     }
 }

@@ -3,6 +3,7 @@ package com.share.contrify.qfrat;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Network;
 import android.net.Uri;
 import android.opengl.Visibility;
@@ -16,9 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
@@ -41,6 +47,7 @@ public class mainquiz extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     View mainview;
     int medprog;
+    mainquiz mq;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,6 +95,9 @@ public class mainquiz extends Fragment {
         resetelements();
         pubques();
         listeners();
+        loadans();
+        submit();
+        mListener.invokeNavMethods();
         return mainview;
     }
 
@@ -128,12 +138,16 @@ public class mainquiz extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void invokeNavMethods();
+        void incrques();
     }
     private void pubques()
     {
         int pos = quizplay.itr;
+        mListener.incrques();
         try {
             TextView tv = mainview.findViewById(R.id.textview1);
+            checkans();
             tv.setText(decode(quizplay.que.getString(pos)));
             String res = quizplay.res.getString(pos);
             switch (res)
@@ -153,17 +167,26 @@ public class mainquiz extends Fragment {
     }
     private void loadres()
     {
+        ImageButton ib = mainview.findViewById(R.id.imageButton);
+        ib.setVisibility(View.GONE);
         TextView tv = mainview.findViewById(R.id.textview4);
+        tv.setText(getResources().getText(R.string.mainquiz_h4));
         tv.setVisibility(View.VISIBLE);
         tv = mainview.findViewById(R.id.textview5);
+        tv.setText(getResources().getText(R.string.mainquiz_h7));
         tv.setVisibility(View.VISIBLE);
         ProgressBar pr = mainview.findViewById(R.id.progressBar);
         pr.setVisibility(View.VISIBLE);
         try {
             String fln = quizplay.qud.getString(quizplay.itr);
-            network_res nr = new network_res();
-            nr.mq = this;
-            nr.execute("0", fln);
+            File fl = new File(universals.stpth + File.separator + (fln+"_pic.png"));
+            if (fl.exists())
+                upprog(100);
+            else {
+                network_res nr = new network_res();
+                nr.mq = this;
+                nr.execute("0", fln);
+            }
         }
         catch (Exception e)
         {
@@ -173,7 +196,6 @@ public class mainquiz extends Fragment {
     }
     public void upprog(Integer val)
     {
-        Log.i("Progress",String.valueOf(val));
         if (val!=100)
         {
             TextView tv = mainview.findViewById(R.id.textview5);
@@ -204,21 +226,44 @@ public class mainquiz extends Fragment {
         }
 
     }
+    public void reserr(String inp)
+    {
+        if (inp.equals("ERR"))
+        {
+            ProgressBar pr = mainview.findViewById(R.id.progressBar);
+            pr.setVisibility(View.GONE);
+            ImageButton ib = mainview.findViewById(R.id.imageButton);
+            ib.setVisibility(View.VISIBLE);
+            String err = "An important image resource cannot be loaded due to connection error. Please reload the resource";
+            TextView tv = mainview.findViewById(R.id.textview5);
+            tv.setVisibility(View.GONE);
+            tv = mainview.findViewById(R.id.textview4);
+            tv.setText(err);
+
+
+        }
+    }
     private void resetelements()
     {
         TextView tv = mainview.findViewById(R.id.textview4);
         tv.setVisibility(View.GONE);
         tv = mainview.findViewById(R.id.textview5);
         tv.setVisibility(View.GONE);
+        tv = mainview.findViewById(R.id.textview6);
+        tv.setVisibility(View.GONE);
         ProgressBar pr = mainview.findViewById(R.id.progressBar);
         pr.setVisibility(View.GONE);
         ImageView iv = mainview.findViewById(R.id.quesimg);
         iv.setVisibility(View.GONE);
+        iv = mainview.findViewById(R.id.imageView3);
+        iv.setVisibility(View.GONE);
+        EditText ed = mainview.findViewById(R.id.editText);
+        ed.setText("");
         medprog = 100;
     }
     private void forward()
     {
-        if (quizplay.itr<30)
+        if (quizplay.itr<quizplay.utqu)
         {
             quizplay.itr++;
             resetelements();
@@ -254,5 +299,94 @@ public class mainquiz extends Fragment {
                 backward();
             }
         });
+        Button gto = getActivity().findViewById(R.id.gotoques);
+        gto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jumpques();
+            }
+        });
+        ImageButton ib = mainview.findViewById(R.id.imageButton);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadres();
+            }
+        });
+    }
+    private void loadans()
+    {
+        mq = this;
+        network nt = new network();
+        nt.nmq = mq;
+        nt.execute("8");
+    }
+
+    public void retans(String inp, boolean typ)
+    {
+        try {
+            quizplay.qans = new JSONArray(inp);
+            checkans();
+            if (typ)
+                forward();
+        }
+        catch (Exception e)
+        {
+            Log.e("mainquiz",e.toString());
+        }
+
+    }
+    private void checkans()
+    {
+        try {
+            String an = quizplay.qans.getString(quizplay.itr);
+            if (!an.equals(""))
+            {
+                TextView tv = mainview.findViewById(R.id.textview6);
+                tv.setVisibility(View.VISIBLE);
+                ImageView iv = mainview.findViewById(R.id.imageView3);
+                iv.setVisibility(View.VISIBLE);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("mainquiz", e.toString());
+        }
+
+    }
+    private void submit()
+    {
+        Button bt = mainview.findViewById(R.id.subbut);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    EditText ed = mainview.findViewById(R.id.editText);
+                    String ans = ed.getText().toString();
+                    quizplay.qans.put(quizplay.itr, ans);
+                    Log.i("JSON", String.valueOf(quizplay.qans));
+                    network nt = new network();
+                    nt.nmq = mq;
+                    nt.execute("9", ans, String.valueOf(quizplay.itr));
+                }
+                catch (Exception e)
+                {
+                    Log.e("mainquiz",e.toString());
+                }
+
+            }
+        });
+    }
+    private void jumpques()
+    {
+        EditText ed = getActivity().findViewById(R.id.editText2);
+        String pos = ed.getText().toString();
+        int val = Integer.parseInt(pos);
+        if (val < quizplay.utqu && val > 0)
+        {
+            quizplay.itr = val-1;
+            resetelements();
+            pubques();
+        }
     }
 }

@@ -43,6 +43,11 @@
             android:id="@+id/action_attemptlogin_to_testfragment"
             app:destination="@id/testfragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newsfrag"
+        android:name="com.share.contrify.qfrat.newsfrag"
+        android:label="fragment_newsfrag"
+        tools:layout="@layout/fragment_newsfrag" />
 
 
 </navigation>

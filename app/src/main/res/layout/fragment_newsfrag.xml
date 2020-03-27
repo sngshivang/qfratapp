@@ -1,0 +1,184 @@
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:background="#FFF6F3"
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/icon_redo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textview4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="10dp"
+            android:visibility="visible"
+            android:fontFamily="@font/calibri"
+            android:text="@string/mainquiz_h4"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/progressBar"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textview5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:visibility="visible"
+            android:fontFamily="@font/calibri"
+            android:text="@string/mainquiz_h7"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/progressBar"
+            app:layout_constraintTop_toBottomOf="@id/textview4">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:visibility="visible"
+            android:layout_marginStart="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            android:src="@drawable/warning_icon_black"
+            tools:layout_editor_absoluteX="6dp"
+            tools:layout_editor_absoluteY="6dp" />
+
+        <TextView
+            android:id="@+id/newsrc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h2"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
+            android:translationY="-30dp"
+            android:textSize="15sp"
+            android:textColor="#663399"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView4"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+        <TextView
+            android:id="@+id/newstit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h3"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="25sp"
+            android:textColor="#663399"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView4"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+        <TextView
+            android:id="@+id/newsdat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h2"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="15sp"
+            android:textColor="@android:color/holo_green_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newstit"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+        <TextView
+            android:id="@+id/newsauth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h5"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="15sp"
+            android:textColor="@android:color/holo_green_dark"
+            app:layout_constraintStart_toEndOf="@id/newsdat"
+            app:layout_constraintTop_toBottomOf="@id/newstit"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/horibar"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:background="#663399"
+            app:layout_constraintStart_toStartOf= "parent"
+            app:layout_constraintTop_toBottomOf="@id/newsdat" />
+
+        <TextView
+            android:id="@+id/newsdesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h3"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horibar"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+        <TextView
+            android:id="@+id/newsurl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/newsfrag_h4"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newsdesc"
+            tools:layout_editor_absoluteX="302dp"
+            tools:layout_editor_absoluteY="352dp" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

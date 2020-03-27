@@ -1,40 +1,29 @@
 package com.share.contrify.qfrat;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Network;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
-import org.json.JSONObject;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ftf.OnFragmentInteractionListener} interface
+ * {@link matrix.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ftf#newInstance} factory method to
+ * Use the {@link matrix#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ftf extends Fragment {
+public class matrix extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View fragview;
-    AlertDialog.Builder adb;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -42,7 +31,7 @@ public class ftf extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ftf() {
+    public matrix() {
         // Required empty public constructor
     }
 
@@ -52,11 +41,11 @@ public class ftf extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ftf.
+     * @return A new instance of fragment matrix.
      */
     // TODO: Rename and change types and number of parameters
-    public static ftf newInstance(String param1, String param2) {
-        ftf fragment = new ftf();
+    public static matrix newInstance(String param1, String param2) {
+        matrix fragment = new matrix();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,10 +66,7 @@ public class ftf extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragview = inflater.inflate(R.layout.fragment_ftf, container, false);
-        adb = new AlertDialog.Builder(getContext());
-        listeners();
-        return fragview;
+        return inflater.inflate(R.layout.fragment_matrix, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,17 +93,6 @@ public class ftf extends Fragment {
         mListener = null;
     }
 
-    private void listeners()
-    {
-        Button bt =  fragview.findViewById(R.id.yesbut);
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onyesbut();
-            }
-        });
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -131,72 +106,5 @@ public class ftf extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-        void fetchques(String inp);
-        void ftffrag();
-    }
-    private void onyesbut()
-    {
-        Log.i("butclc","Button has been clicked");
-        String qid = null;
-        try {
-
-            qid = universals.arl.get(0).getString(universals.qlt.get(quizplay.pos));
-        }
-        catch (Exception e)
-        {
-            Log.e("ftf",e.toString());
-        }
-        Log.i("qid",qid);
-        network nt = new network();
-        nt.ft = this;
-        nt.execute("5",qid);
-
-    }
-    void retcall(String data)
-    {
-        try {
-            JSONObject jsb = new JSONObject(data);
-            String sdatm = jsb.getString("sdatm");
-            String st = jsb.getString("st");
-            switch (st)
-            {
-                case "62":
-                    fetchques();
-                    break;
-                case "63":
-                    adb.setTitle("QUIZ NOT STARTED");
-                    adb.setMessage("This quiz has not yet started, please wait till "+sdatm);
-                    adb.show();
-                    fetchques();
-                    break;
-                case "61":
-                    adb.setTitle("SERVER ERROR");
-                    adb.setMessage("There has been an error communicating with the server. Please check your internet connection, close and reopen your app.");
-                    adb.show();
-                    break;
-
-            }
-
-        }
-        catch (Exception e)
-        {
-            Log.e("ftf",e.toString());
-        }
-    }
-    private void fetchques()
-    {
-        network nt = new network();
-        nt.ft = this;
-        nt.execute("6");
-    }
-    void retcallques(String inp)
-    {
-        mListener.fetchques(inp);
-        mainquiz mq = new mainquiz();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, mq);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }
