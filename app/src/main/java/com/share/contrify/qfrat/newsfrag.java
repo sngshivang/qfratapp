@@ -6,9 +6,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.text.Html;
+import android.text.Layout;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -151,8 +155,7 @@ public class newsfrag extends Fragment {
             }
             if (auth!=null) {
                 tv = mainview.findViewById(R.id.newsauth);
-                String conc = "|| "+auth;
-                tv.setText(conc);
+                tv.setText(auth);
             }
             if (pub!=null) {
                 try {
@@ -196,6 +199,8 @@ public class newsfrag extends Fragment {
     }
     private void loadres(String url, String fln)
     {
+        ConstraintLayout cl = mainview.findViewById(R.id.imagecont);
+        cl.setVisibility(View.VISIBLE);
         TextView tv = mainview.findViewById(R.id.textview4);
         tv.setText(getResources().getText(R.string.mainquiz_h4));
         tv.setVisibility(View.VISIBLE);
@@ -229,7 +234,10 @@ public class newsfrag extends Fragment {
                 pr.setVisibility(View.GONE);
                 ImageView iv = mainview.findViewById(R.id.imageView4);
                 Bitmap bmp = BitmapFactory.decodeFile(universals.stpth + File.separator + fln);
-                iv.setImageBitmap(bmp);
+                int nh = (int) ( bmp.getHeight() * (1024.0 / bmp.getWidth()) );
+                Bitmap scaled = Bitmap.createScaledBitmap(bmp, 1024, nh, true);
+                iv.setImageBitmap(scaled);
+                iv.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
                 iv.setVisibility(View.VISIBLE);
             }
             catch (Exception e)
@@ -243,8 +251,10 @@ public class newsfrag extends Fragment {
     {
         if (inp.equals("ERR"))
         {
+            ImageView iv = mainview.findViewById(R.id.imageView4);
+            iv.setVisibility(View.GONE);
             ProgressBar pr = mainview.findViewById(R.id.progressBar);
-            pr.setVisibility(View.GONE);
+            pr.setVisibility(View.INVISIBLE);
             ImageButton ib = mainview.findViewById(R.id.imageButton);
             ib.setVisibility(View.VISIBLE);
             String err = "A news resource cannot be loaded due to connection error. Please reload the resource";
@@ -252,6 +262,7 @@ public class newsfrag extends Fragment {
             tv.setVisibility(View.GONE);
             tv = mainview.findViewById(R.id.textview4);
             tv.setText(err);
+            newssrcposmod();
 
 
         }
@@ -269,6 +280,7 @@ public class newsfrag extends Fragment {
     private void setdefs()
     {
         ImageView iv = mainview.findViewById(R.id.imageView4);
+        iv.requestLayout();
         iv.setVisibility(View.GONE);
         ImageButton ib = mainview.findViewById(R.id.imageButton);
         ib.setVisibility(View.GONE);
@@ -278,5 +290,17 @@ public class newsfrag extends Fragment {
         tv.setVisibility(View.GONE);
         tv = mainview.findViewById(R.id.textview4);
         tv.setVisibility(View.GONE);
+        ConstraintLayout cl = mainview.findViewById(R.id.imagecont);
+        cl.setVisibility(View.GONE);
+    }
+    private void newssrcposmod()
+    {
+        TextView tv = mainview.findViewById(R.id.newsauth);
+        tv.setTranslationY(0);
+        ConstraintLayout cl = mainview.findViewById(R.id.content_frame);
+        ConstraintSet ct = new ConstraintSet();
+        ct.clone(cl);
+        ct.connect(R.id.newstit,ConstraintSet.TOP,R.id.newsrc,ConstraintSet.BOTTOM,10);
+        ct.applyTo(cl);
     }
 }

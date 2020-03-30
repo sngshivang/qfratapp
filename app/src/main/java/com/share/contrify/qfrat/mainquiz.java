@@ -231,7 +231,7 @@ public class mainquiz extends Fragment {
         if (inp.equals("ERR"))
         {
             ProgressBar pr = mainview.findViewById(R.id.progressBar);
-            pr.setVisibility(View.GONE);
+            pr.setVisibility(View.INVISIBLE);
             ImageButton ib = mainview.findViewById(R.id.imageButton);
             ib.setVisibility(View.VISIBLE);
             String err = "An important image resource cannot be loaded due to connection error. Please reload the resource";
@@ -259,6 +259,8 @@ public class mainquiz extends Fragment {
         iv.setVisibility(View.GONE);
         EditText ed = mainview.findViewById(R.id.editText);
         ed.setText("");
+        ImageButton ib = mainview.findViewById(R.id.imageButton);
+        ib.setVisibility(View.GONE);
         medprog = 100;
     }
     private void forward()

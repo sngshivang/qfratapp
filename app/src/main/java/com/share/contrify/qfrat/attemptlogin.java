@@ -1,9 +1,11 @@
 package com.share.contrify.qfrat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,9 +19,20 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.share.contrify.qfrat.universals.mGoogleSignInClient;
+
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,9 +51,12 @@ public class attemptlogin extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View mainview;
+    private View mainview;
     private int ri;
+    private String scid = "867433872221-br6tp5c5i5e58eclsaga8mid8nbdlcbi.apps.googleusercontent.com";
+    private ArrayList<String> gstr;
     private Handler task;
+    private boolean isgoog;
     private Handler hld = new Handler();
 
     // TODO: Rename and change types of parameters
@@ -78,6 +94,11 @@ public class attemptlogin extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(scid)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
     }
 
     @Override
@@ -129,10 +150,58 @@ public class attemptlogin extends Fragment {
     }
     private void autologin()
     {
-        network nt = new network();
-        nt.al = this;
-        nt.execute("7", universals.email, universals.pwd);
+        if(universals.isgoogle)
+        {
+            signIn();
 
+        }
+        else {
+            network nt = new network();
+            nt.al = this;
+            nt.execute("7", universals.email, universals.pwd);
+        }
+
+    }
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 1997);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == 1997) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String personName = account.getDisplayName();
+            String personEmail = account.getEmail();
+            String pid = account.getId();
+            String token = account.getIdToken();
+            gstr = new ArrayList<>();
+            gstr.add(personName);
+            gstr.add(personEmail);
+            gstr.add(pid);
+            gstr.add(token);
+            isgoog = true;
+            network nt = new network();
+            nt.al = this;
+            nt.execute("11",personEmail, pid, token);
+
+            // Signed in successfully, show authenticated UI
+            //updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+        }
     }
     void retcall(String inp)
     {
@@ -144,13 +213,14 @@ public class attemptlogin extends Fragment {
             String alst= null;
             if (cd ==6)
             {
-                ri = 4;
+                ri = 3;
                 task = new Handler(Looper.getMainLooper());
                 task.postDelayed(newexp, 1000);
             }
             else{
-                universals.sysfile2cr(getContext(),"nf", "nf", "nf", js.getString("sid"));
+                universals.sysfile2cr(getContext(),"nf", "nf", "nf", js.getString("sid"), false);
                 universals.setdefs(getContext());
+                signout();
                 if (cd  == 12)
                 {
                     sess_reset sr = new sess_reset();
@@ -185,6 +255,13 @@ public class attemptlogin extends Fragment {
             Log.e("login_frag",e.toString());
         }
 
+    }
+    private void signout()
+    {
+        mGoogleSignInClient.signOut();
+        network nw = new network();
+        nw.al = this;
+        nw.execute("12");
     }
     private void testmod(int cnt)
     {

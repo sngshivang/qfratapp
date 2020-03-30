@@ -2,10 +2,13 @@ package com.share.contrify.qfrat;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +33,7 @@ public class sess_reset extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View vw;
+    private View vw;
     private AlertDialog.Builder ab;
 
     // TODO: Rename and change types of parameters
@@ -68,6 +71,7 @@ public class sess_reset extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ab = new AlertDialog.Builder(getActivity());
     }
 
     @Override
@@ -75,7 +79,6 @@ public class sess_reset extends Fragment {
                              Bundle savedInstanceState) {
         vw = inflater.inflate(R.layout.fragment_sess_reset, container, false);
         fillfields();
-        ab = new AlertDialog.Builder(getActivity());
         buttonlisteners();
         // Inflate the layout for this fragment
         return vw;
@@ -170,12 +173,41 @@ public class sess_reset extends Fragment {
         nw.execute("3");
 
     }
+    public void retcall(String inp)
+    {
+        if (inp.equals("ERR"))
+        {
+            ab.setTitle("ERROR");
+            ab.setMessage("There seems to be a communication issue. Please ensure your connectivity is ensured and try again.");
+            ab.show();
+
+        }
+        else
+        {
+            ab.setTitle("SUCCESS");
+            ab.setMessage("All previous sessions have now been cleared.\nYou will not be redirected to the login page so you could login again with the same credentials");
+            ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    login_frag lf = new login_frag();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_host_fragment, lf);
+                    fragmentTransaction.setCustomAnimations(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
+            ab.create();
+            ab.show();
+        }
+    }
     private void no()
     {
         ab.setTitle("SESSION CANCELLED");
         ab.setMessage("Your this login session has been cancelled and you will be taken to the home activity.");
         ab.show();
-        universals.setter("nf", "nf", "nf","nf");
+        universals.setter("nf", "nf", "nf","nf", false);
         universals.setdefs(getActivity());
     }
 }

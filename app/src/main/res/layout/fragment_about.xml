@@ -1,0 +1,149 @@
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF6F3"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:background="#FFF6F3"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/abtus_h1"
+            android:id="@+id/textview1"
+            android:layout_marginTop="0dp"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:background="#663399"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/abtus_h2"
+            android:id="@+id/textview2"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="0dp"
+            android:padding="5dp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/textview1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/horibar"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:background="#663399"
+            app:layout_constraintStart_toStartOf= "parent"
+            app:layout_constraintTop_toBottomOf="@id/textview2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/abtus_l1"
+            android:id="@+id/textview3"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="15dp"
+            android:padding="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@android:color/holo_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/horibar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/abtus_v"
+            android:id="@+id/textview4"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:padding="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@android:color/holo_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/textview3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/horibar1"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:background="#663399"
+            app:layout_constraintStart_toStartOf= "parent"
+            app:layout_constraintTop_toBottomOf="@id/textview4" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/warning_icon_black"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            tools:layout_editor_absoluteX="197dp"
+            tools:layout_editor_absoluteY="33dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horibar1"/>
+
+
+        <TextView
+            android:id="@+id/textview5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/abtus_h3"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@id/horibar1"/>
+
+        <TextView
+            android:id="@+id/textview6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/abtus_h4"
+            android:textColor="@android:color/black"
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView2"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

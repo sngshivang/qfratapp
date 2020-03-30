@@ -17,10 +17,12 @@ public class network extends AsyncTask <String,Void,String> {
     login_frag lf= null;
     sess_reset sr = null;
     quizlist qz = null;
+    signup_frag sf;
     ftf ft = null;
     attemptlogin al = null;
     mainquiz nmq = null;
     String pref = "";
+    signout so = null;
     testfragment tf = null;
     @Override
     public void onPreExecute()
@@ -38,9 +40,8 @@ public class network extends AsyncTask <String,Void,String> {
                 String pw = params[2];
                 url = "https://www.qfrat.co.in/php/login.php";
                 data = "email=" + un + "&pwd=" + pw + "&isgoog=0";
-                Log.i("data",data);
             }
-            else if (pref.equals("1"))
+            else if (pref.equals("1")||pref.equals("13"))
             {
                 String un = params[1];
                 String pw = params[2];
@@ -49,7 +50,7 @@ public class network extends AsyncTask <String,Void,String> {
                 String col = params[5];
                 String capt = params[6];
                 url = "https://www.qfrat.co.in/php/signupbackend.php";
-                data = "gresp="+capt+"&ANDAPP=1&email="+un+"&pwd="+pw+"&repwd="+pw+"&name="+nm+"&mob="+mob+"&remember=0";
+                data = "gresp="+capt+"&ANDAPP=1&email="+un+"&pwd="+pw+"&repwd="+pw+"&name="+nm+"&mob="+mob+"&remember=0&colbr="+col;
             }
             else if (pref.equals("2"))
             {
@@ -93,6 +94,24 @@ public class network extends AsyncTask <String,Void,String> {
                 url = "http://newsapi.org/v2/top-headlines?" +
                     "country=us&" +
                     "apiKey=250aa58578a64814abcc32e58c068b30";
+            }
+            else if (pref.equals("11"))
+            {
+                String un = params[1];
+                String pw = params[2];
+                String idtok = params[3];
+                url = "https://www.qfrat.co.in/php/login.php";
+                data = "email=" + un + "&pwd=" + pw + "&isgoog=1&idtoken="+idtok;
+            }
+            else if (pref.equals("12"))
+            {
+                url = "https://www.qfrat.co.in/php/signout.php";
+            }
+            else if (pref.equals("14"))
+            {
+                url = "https://www.qfrat.co.in/php/fpwd.php";
+                String em = params[1];
+                data = "fn=rcr&email="+em;
             }
             URL urlu = new URL(url);
             HttpURLConnection conn = (HttpURLConnection)urlu.openConnection();
@@ -142,10 +161,18 @@ public class network extends AsyncTask <String,Void,String> {
     @Override
     public void onPostExecute(String inp)
     {
-        if (pref.equals("0"))
-        lf.netret(inp, lf);
+        if (pref.equals("0") || pref.equals("13") || pref.equals("11")) {
+            if (lf!=null)
+            lf.netret(inp, lf);
+            if (al!=null)
+                al.retcall(inp);
+        }
+        else if (pref.equals("1"))
+            sf.retcall(inp);
         else if (pref.equals("2"))
             sr.fillfieldsr(inp, sr);
+        else if (pref.equals("3"))
+            sr.retcall(inp);
         else if (pref.equals("4"))
             qz.retcall(inp);
         else if (pref.equals("5"))
@@ -160,5 +187,13 @@ public class network extends AsyncTask <String,Void,String> {
             nmq.retans(inp, true);
         else if (pref.equals("10"))
             tf.retcall(inp);
+        else if (pref.equals("12")) {
+            if (lf!=null)
+                lf.retsignout(inp);
+            if (so!=null)
+                so.retsignout(inp);
+        }
+        else if(pref.equals("14"))
+            lf.respwres(inp);
     }
 }

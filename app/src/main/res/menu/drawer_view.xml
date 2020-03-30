@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="TEST1" />
+            android:id="@+id/nav_news"
+            android:title="@string/navl_h1" />
         <item
-            android:id="@+id/nav_upl"
-            android:title="TEST2" />
+            android:id="@+id/nav_qms"
+            android:title="@string/nav1_h2" />
         <item
-            android:id="@+id/nav_dwn"
-            android:title="TEST3" />
+            android:id="@+id/nav_log"
+            android:title="@string/nav1_h3"/>
+        <item
+            android:id="@+id/nav_abt"
+            android:title="@string/nav1_h4"/>
 
     </group>
 </menu>

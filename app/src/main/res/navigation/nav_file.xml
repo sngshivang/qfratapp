@@ -5,16 +5,15 @@
     android:id="@+id/nav_file"
     app:startDestination="@id/testfragment">
 
-    <activity
-        android:id="@+id/login_signup3"
-        android:name="com.share.contrify.qfrat.login_signup"
-        android:label="activity_login_signup"
-        tools:layout="@layout/activity_login_signup" />
     <fragment
         android:id="@+id/testfragment"
         android:name="com.share.contrify.qfrat.testfragment"
         android:label="fragment_testfragment"
-        tools:layout="@layout/fragment_testfragment" />
+        tools:layout="@layout/fragment_testfragment" >
+        <action
+            android:id="@+id/action_testfragment_to_newsfrag"
+            app:destination="@id/newsfrag" />
+    </fragment>
     <fragment
         android:id="@+id/signup_frag"
         android:name="com.share.contrify.qfrat.signup_frag"

@@ -1,5 +1,6 @@
 package com.share.contrify.qfrat;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
 import android.text.Html;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.share.contrify.qfrat.MainActivity.jsb;
+import static com.share.contrify.qfrat.universals.jsb;
 import static com.share.contrify.qfrat.MainActivity.news;
 
 
@@ -49,6 +52,8 @@ public class testfragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private View mainview;
     private ListView lst;
+    private AlertDialog.Builder adb;
+    private AlertDialog afcr;
     private ArrayList<newsfield> al;
     private newsadap nz;
 
@@ -99,7 +104,7 @@ public class testfragment extends Fragment {
         mainview = inflater.inflate(R.layout.fragment_testfragment,
                 container, false);
         instant();
-        sendreq();
+        sendreq(false);
         listeners();
         return mainview;
     }
@@ -141,6 +146,7 @@ public class testfragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void jumptonewsfrag();
     }
     private  void instant()
     {
@@ -154,9 +160,19 @@ public class testfragment extends Fragment {
         nz.add(ifo);
         lst.setAdapter(nz);
     }
-    private void sendreq()
+    private void sendreq(boolean or)
     {
-        if (jsb==null) {
+        instant();
+        if (jsb==null||or) {
+            adb = new AlertDialog.Builder(getContext());
+            LayoutInflater lf = getLayoutInflater();
+            View spinview = lf.inflate(R.layout.alert_spin2, null);
+            TextView tv = spinview.findViewById(R.id.headmsg);
+            String msg = "Please wait while we fetch latest news feed for you...";
+            tv.setText(msg);
+            adb.setView(spinview);
+            afcr = adb.create();
+            afcr = adb.show();
             network nt = new network();
             nt.tf = this;
             nt.execute("10");
@@ -166,33 +182,35 @@ public class testfragment extends Fragment {
     }
     public void retcall(String inp)
     {
+        if (afcr!=null)
+        afcr.dismiss();
         Log.i("retcall",inp);
-        Spanned txtur;
-        String tit, url, imgur, stat;
-        try{
-            jsb = new JSONObject(inp);
-            stat = jsb.getString("status");
-            int lnks = 0;
-            if (stat.equals("ok"))
-            {
-                lnks = jsb.getInt("totalResults");
-                news = new JSONArray(jsb.getString("articles"));
-                for (int i = 0;i< 20; i++)
-                {
-                    String col = news.getString(i);
-                    JSONObject insrc = new JSONObject(col);
-                    tit = insrc.getString("title");
-                    url = insrc.getString("url");
-                    imgur = insrc.getString("urlToImage");
-                    txtur = Html.fromHtml("<a href = '"+url+"'>"+tit+"</a>");
-                    lstfiller(tit);
-
-                }
-            }
-        }
-        catch (Exception e)
+        String tit, url, stat;
+        if (inp.equals("ERR"))
         {
-            Log.e("testfragment",e.toString());
+            lstfiller("Failed to fetch the latest news feed. Please reload the page.");
+        }
+        else {
+            try {
+                jsb = new JSONObject(inp);
+                universals.sysfile2cr(getContext(), jsb);
+                stat = jsb.getString("status");
+                int lnks = 0;
+                if (stat.equals("ok")) {
+                    lnks = jsb.getInt("totalResults");
+                    news = new JSONArray(jsb.getString("articles"));
+                    for (int i = 0; i < 20; i++) {
+                        String col = news.getString(i);
+                        JSONObject insrc = new JSONObject(col);
+                        tit = insrc.getString("title");
+                        url = insrc.getString("url");
+                        lstfiller(tit);
+
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("testfragment", e.toString());
+            }
         }
 
     }
@@ -202,7 +220,7 @@ public class testfragment extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendreq();
+                sendreq(true);
             }
         });
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -210,14 +228,18 @@ public class testfragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int pos,
                                     long id) {
                 MainActivity.newspos = pos;
-                newsfrag nfg = new newsfrag();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                Navigation.findNavController(view).navigate(R.id.action_testfragment_to_newsfrag);
+                //mListener.jumptonewsfrag();
+                //newsfrag nfg = new newsfrag();
+
+                /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.slide_out_right,
                         android.R.anim.slide_in_left);
                 fragmentTransaction.replace(R.id.nav_host_fragment, nfg);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
 
             }
             });

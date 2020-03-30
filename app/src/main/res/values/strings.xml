@@ -4,10 +4,12 @@
     <string name="loginnn">Enter Username &amp; Password</string>
     <string name="logusrhnt">Enter registered email</string>
     <string name="logusrpwd">Enter Password</string>
+    <string name="login_h1"><u>Forgot Password? Tap Here</u></string>
+    <string name="login_h2">Excuse yourself from all the hassle. We recommend you select Google Login to use your Google Account. </string>
     <string name="loginbut">LOGIN</string>
     <string name="signupbut">SIGN UP</string>
     <string name="googsignin">GOOGLE LOGIN</string>
-    <string name="signup_main">Enter the information to Sign Up</string>
+    <string name="signup_main">SIGN UP INFORMATION</string>
     <string name="signem">Enter Email ID</string>
     <string name="signpw">Enter Password</string>
     <string name="signre">Re-Enter Password</string>
@@ -62,8 +64,25 @@
     <string name="newsfrag_h2">NOT LOADED</string>
     <string name="newsfrag_h3">You are seeing this as the components have not been correctly loaded. Please refresh this app.</string>
     <string name="newsfrag_h4">Click here to visit this article\'s news website.</string>
-    <string name="newsfrag_h5">|| NOT AVAILABLE</string>
-
+    <string name="newsfrag_h5">AUTHOR NOT AVAILABLE</string>
+    <string name="univ_na">NOT AVAILABLE</string>
+    <string name="gadd_h1">Additional information Required</string>
+    <string name="gadd_h2">Enter Mobile Number</string>
+    <string name="gadd_h3">Your College+Branch</string>
+    <string name="navl_h1">News &amp; Updates</string>
+    <string name="nav1_h2">Play Quiz</string>
+    <string name="nav1_h3">Login &amp; SignUp</string>
+    <string name="nav1_h4">About</string>
+    <string name="respw_h1">Reset Password</string>
+    <string name="respw_h2">Enter Email ID</string>
+    <string name="signout_h1">You are already signed in, do you want to sign out instead?</string>
+    <string name="signout_b1">SIGN OUT</string>
+    <string name="abtus_h1">ABOUT</string>
+    <string name="abtus_h2">QFrat is the Quizzing fraternity dedicated to community quizzing across all genres.\nStarted in 2010 in KNIT Sultanpur, QFrat is one of the prime quizzing community in the northern Indian region.</string>
+    <string name="abtus_h3">This APP is in BETA</string>
+    <string name="abtus_h4">You may experience unexpected issues which will be rectified as soon as we find it.</string>
+    <string name="abtus_l1">https://qfrat.co.in\nsupport@qfrat.co.in\nDeveloper: kumar.16230@knit.ac.in</string>
+    <string name="abtus_v">Version: 1.0.0</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

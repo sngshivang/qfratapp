@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -39,7 +40,9 @@ public class signup_frag extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View vw;
+    private View vw;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -143,12 +146,7 @@ public class signup_frag extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    AlertDialog.Builder ab;
     private String vlresp;
-    private void startexc()
-    {
-        ab = new AlertDialog.Builder(getActivity());
-    }
     public void vfcaptcha()
     {
         SafetyNet.getClient(getActivity()).verifyWithRecaptcha("6Ld0G9kUAAAAAH1UNaPF4E5YFAroLPfzNtLj0rgj")
@@ -185,7 +183,7 @@ public class signup_frag extends Fragment {
                     }
                 });
     }
-    public void signup()
+    private void signup()
     {
 
         EditText ed = vw.findViewById(R.id.usrnme);
@@ -202,9 +200,62 @@ public class signup_frag extends Fragment {
         String add = ed.getText().toString();
         if (pw.equals(repwd))
         {
-            new network().execute("1",un,pw,mob,nm,add,vlresp);
+            loadspindialog();
+            network nt = new network();
+            nt.sf = this;
+            nt.execute("1",un,pw,mob,nm,add,vlresp);
 
 
         }
+    }
+
+    private void loadspindialog()
+    {
+        adb = new AlertDialog.Builder(getContext());
+        LayoutInflater lf = getLayoutInflater();
+        View adbview = lf.inflate(R.layout.alert_spin2,null);
+        TextView tv = adbview.findViewById(R.id.headmsg);
+        String str = "Please wait while we communicate with the server...";
+        tv.setText(str);
+        adb.setView(adbview);
+        ad = adb.create();
+        ad = adb.show();
+    }
+    public void retcall(String inp)
+    {
+        if (ad!=null)
+            ad.dismiss();
+        adb = new AlertDialog.Builder(getContext());
+        if (inp.equals("ERR"))
+        {
+            adb.setTitle("ERROR");
+            adb.setMessage("There seems to be a communication issue. Please ensure your connectivity is ensured and try again.");
+            adb.show();
+
+        }
+        else
+        {
+            if (inp.equals("6"))
+            {
+                adb.setTitle("SUCCESS");
+                adb.setMessage("You have successfully registered this user account. Please login using this same information");
+                adb.show();
+            }
+            else
+            {
+                adb.setTitle("ERROR");
+                if (inp.equals("9"))
+                    adb.setMessage("E-Mail id is already registered! Please try a different email");
+                else if (inp.equals("2"))
+                    adb.setMessage("SQL Configuration fault! Contact admin at admin[at]qfrat.co.in");
+                else if (inp.equals("8"))
+                    adb.setMessage("Password do not match");
+                else if (inp.equals("10"))
+                    adb.setMessage("Captcha Authentication Error! Prove that you are a human or refresh the page");
+                adb.show();
+
+            }
+        }
+
     }
 }

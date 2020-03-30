@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -35,6 +36,7 @@ public class ftf extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     View fragview;
     AlertDialog.Builder adb;
+    AlertDialog ad;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -134,9 +136,20 @@ public class ftf extends Fragment {
         void fetchques(String inp);
         void ftffrag();
     }
+    private void loadspindialog()
+    {
+        adb = new AlertDialog.Builder(getContext());
+        LayoutInflater lf = getLayoutInflater();
+        View adbview = lf.inflate(R.layout.alert_spin2,null);
+        TextView tv = adbview.findViewById(R.id.headmsg);
+        String str = "Please wait while we fetch the necessary quiz data...";
+        tv.setText(str);
+        adb.setView(adbview);
+        ad = adb.create();
+        ad = adb.show();
+    }
     private void onyesbut()
     {
-        Log.i("butclc","Button has been clicked");
         String qid = null;
         try {
 
@@ -147,50 +160,58 @@ public class ftf extends Fragment {
             Log.e("ftf",e.toString());
         }
         Log.i("qid",qid);
+        loadspindialog();
         network nt = new network();
         nt.ft = this;
         nt.execute("5",qid);
 
     }
-    void retcall(String data)
-    {
-        try {
-            JSONObject jsb = new JSONObject(data);
-            String sdatm = jsb.getString("sdatm");
-            String st = jsb.getString("st");
-            switch (st)
-            {
-                case "62":
-                    fetchques();
-                    break;
-                case "63":
-                    adb.setTitle("QUIZ NOT STARTED");
-                    adb.setMessage("This quiz has not yet started, please wait till "+sdatm);
-                    adb.show();
-                    fetchques();
-                    break;
-                case "61":
-                    adb.setTitle("SERVER ERROR");
-                    adb.setMessage("There has been an error communicating with the server. Please check your internet connection, close and reopen your app.");
-                    adb.show();
-                    break;
+    void retcall(String data) {
+        if (ad != null)
+            ad.dismiss();
+        if (data.equals("ERR")) {
+            adb.setTitle("ERROR!");
+            adb.setMessage("Failed to fetch necessary information from the server. Please try again");
+            adb.show();
+        } else {
+            try {
+                JSONObject jsb = new JSONObject(data);
+                String sdatm = jsb.getString("sdatm");
+                String st = jsb.getString("st");
+                switch (st) {
+                    case "62":
+                        fetchques();
+                        break;
+                    case "63":
+                        adb.setTitle("QUIZ NOT STARTED");
+                        adb.setMessage("This quiz has not yet started, please wait till " + sdatm);
+                        adb.show();
+                        fetchques();
+                        break;
+                    case "61":
+                        adb.setTitle("SERVER ERROR");
+                        adb.setMessage("There has been an error communicating with the server. Please check your internet connection, close and reopen your app.");
+                        adb.show();
+                        break;
 
+                }
+
+            } catch (Exception e) {
+                Log.e("ftf", e.toString());
             }
-
-        }
-        catch (Exception e)
-        {
-            Log.e("ftf",e.toString());
         }
     }
     private void fetchques()
     {
+        loadspindialog();
         network nt = new network();
         nt.ft = this;
         nt.execute("6");
     }
     void retcallques(String inp)
     {
+        if (ad!=null)
+            ad.dismiss();
         mListener.fetchques(inp);
         mainquiz mq = new mainquiz();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

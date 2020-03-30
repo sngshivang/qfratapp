@@ -76,7 +76,8 @@ public class firstrun extends AppCompatActivity {
             return true;
         }
         else {
-            universals.sysfile2cr(this, "nf", "nf", "nf", "nf");
+            universals.sysfile2cr(this, "nf", "nf", "nf", "nf", false);
+            universals.sysfile2cr(this , null);
             finalend();
             return false;
         }
