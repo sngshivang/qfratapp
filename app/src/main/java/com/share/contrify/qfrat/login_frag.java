@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,7 +57,7 @@ public class login_frag extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View vv;
+    private View vv;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private Context ct;
@@ -154,6 +156,7 @@ public class login_frag extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void triggerstuff();
         void onFragmentInteraction(Uri uri);
     }
     private void listeners()
@@ -181,13 +184,6 @@ public class login_frag extends Fragment {
                 signIn();
             }
         });
-        bt4 = vv.findViewById(R.id.button2);
-        bt4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signout();
-            }
-        });
         TextView tv = vv.findViewById(R.id.textview7);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,12 +207,7 @@ public class login_frag extends Fragment {
 
     private void signup()
     {
-        signup_frag sf = new signup_frag();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, sf);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Navigation.findNavController(vv).navigate(R.id.action_login_frag_to_signup_frag);
     }
 
     private void signIn() {
@@ -279,44 +270,53 @@ public class login_frag extends Fragment {
                 String alst = "";
                 //AlertDialog.Builder ab = new AlertDialog.Builder(lf.getActivity());
                 if (cd == 6) {
-                    adb.setTitle("LOGIN SUCCESSFUL");
-                    adb.setMessage("You will now be redirected the Main Page");
-                    adb.show();
                     universals.sysfile2cr(lf.getContext(), js.getString("fname"), upwd, js.getString("email"), js.getString("sid"), isgoog);
                     universals.setdefs(lf.getContext());
+                    mListener.triggerstuff();
+                    adb.setTitle("LOGIN SUCCESSFUL");
+                    adb.setMessage("You will now be redirected the Main Page");
+                    adb.setCancelable(false);
+                    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Navigation.findNavController(vv).navigate(R.id.action_login_frag_to_testfragment);
+                        }
+                    });
+                    adb.create();
+                    adb.show();
                 } else {
-                    if (cd == 1) {
-                        alst = "You are already logged in";
-                    } else if (cd == 2) {
-                        alst = "SQL Configuration fault! Contact admin at admin[at]qfrat.co.in";
-                    } else if (cd == 3) {
-                        alst = "This method of login is not allowed for this account";
-                    } else if (cd == 4) {
-                        if (isgoog)
-                            vfcaptcha();
-                        else
-                            alst = "Incorrect Username or password";
-                    } else if (cd == 5) {
-                        alst = "Record fetch error for input! Contact admin at admin[at]qfrat.co.in";
-                    } else if (cd == 7) {
-                        if (isgoog)
-                            vfcaptcha();
-                        else
-                            alst = "Username not found in record";
-                    } else if (cd == 12) {
+                    if (cd ==12)
+                    {
                         universals.sysfile2cr(lf.getContext(), "nf", "nf", "nf", js.getString("sid"), false);
                         universals.setdefs(lf.getContext());
-                        sess_reset sr = new sess_reset();
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.nav_host_fragment, sr);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-
+                        Navigation.findNavController(vv).navigate(R.id.action_login_frag_to_sess_reset);
                     }
-                    adb.setTitle("ERROR");
-                    adb.setMessage(alst);
-                    adb.show();
+                    else {
+                        if (cd == 1) {
+                            alst = "You are already logged in";
+                        } else if (cd == 2) {
+                            alst = "SQL Configuration fault! Contact admin at admin[at]qfrat.co.in";
+                        } else if (cd == 3) {
+                            alst = "This method of login is not allowed for this account";
+                        } else if (cd == 4) {
+                            if (isgoog)
+                                vfcaptcha();
+                            else
+                                alst = "Incorrect Username or password";
+                        } else if (cd == 5) {
+                            alst = "Record fetch error for input! Contact admin at admin[at]qfrat.co.in";
+                        } else if (cd == 7) {
+                            if (isgoog)
+                                vfcaptcha();
+                            else
+                                alst = "Username not found in record";
+                        }
+                        if (!isgoog) {
+                            adb.setTitle("ERROR");
+                            adb.setMessage(alst);
+                            adb.show();
+                        }
+                    }
                 }
             } catch (Exception e) {
                 Log.e("login_frag", e.toString());
@@ -404,6 +404,7 @@ public class login_frag extends Fragment {
     }
     private void gsignup(String gpresp,String mob, String colbr)
     {
+        loadspindialog();
         network nk = new network();
         nk.lf = this;
         nk.execute("13",gstr.get(1),gstr.get(2),mob,gstr.get(0),colbr,gpresp);
@@ -495,5 +496,41 @@ public class login_frag extends Fragment {
         else
         adb.setMessage("There seems to be some problem connecting to the server. Please check your connectivity and try again...");
         adb.show();
+    }
+
+    public void googretcall(String inp)
+    {
+        if (ad!=null)
+            ad.dismiss();
+        adb = new AlertDialog.Builder(getContext());
+        if (inp.equals("ERR"))
+        {
+            adb.setTitle("ERROR");
+            adb.setMessage("There seems to be a communication issue. Please ensure your connectivity is ensured and try again.");
+            adb.show();
+
+        }
+        else
+        {
+            if (inp.equals("6"))
+            {
+                signIn();
+            }
+            else
+            {
+                adb.setTitle("ERROR");
+                if (inp.equals("9"))
+                    adb.setMessage("E-Mail id is already registered! Please try a different email");
+                else if (inp.equals("2"))
+                    adb.setMessage("SQL Configuration fault! Contact admin at admin[at]qfrat.co.in");
+                else if (inp.equals("8"))
+                    adb.setMessage("Password do not match");
+                else if (inp.equals("10"))
+                    adb.setMessage("Captcha Authentication Error! Prove that you are a human or refresh the page");
+                adb.show();
+
+            }
+        }
+
     }
 }

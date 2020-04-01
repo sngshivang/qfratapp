@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -47,6 +50,8 @@ public class mainquiz extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     View mainview;
     int medprog;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
     mainquiz mq;
 
     // TODO: Rename and change types of parameters
@@ -167,16 +172,13 @@ public class mainquiz extends Fragment {
     }
     private void loadres()
     {
-        ImageButton ib = mainview.findViewById(R.id.imageButton);
-        ib.setVisibility(View.GONE);
-        TextView tv = mainview.findViewById(R.id.textview4);
-        tv.setText(getResources().getText(R.string.mainquiz_h4));
-        tv.setVisibility(View.VISIBLE);
-        tv = mainview.findViewById(R.id.textview5);
-        tv.setText(getResources().getText(R.string.mainquiz_h7));
-        tv.setVisibility(View.VISIBLE);
-        ProgressBar pr = mainview.findViewById(R.id.progressBar);
-        pr.setVisibility(View.VISIBLE);
+        ConstraintLayout cl = mainview.findViewById(R.id.imagelayout);
+        ConstraintLayout cl2 = mainview.findViewById(R.id.content_frame);
+        ConstraintSet ct = new ConstraintSet();
+        ct.clone(cl2);
+        ct.connect(R.id.horibar,ConstraintSet.TOP,R.id.imagelayout,ConstraintSet.BOTTOM,5);
+        ct.applyTo(cl2);
+        cl.setVisibility(View.VISIBLE);
         try {
             String fln = quizplay.qud.getString(quizplay.itr);
             File fl = new File(universals.stpth + File.separator + (fln+"_pic.png"));
@@ -245,22 +247,31 @@ public class mainquiz extends Fragment {
     }
     private void resetelements()
     {
+        ConstraintLayout cl2 = mainview.findViewById(R.id.content_frame);
+        ConstraintSet ct = new ConstraintSet();
+        ct.clone(cl2);
+        ct.connect(R.id.horibar,ConstraintSet.TOP,R.id.textview1,ConstraintSet.BOTTOM,5);
+        ct.applyTo(cl2);
         TextView tv = mainview.findViewById(R.id.textview4);
-        tv.setVisibility(View.GONE);
+        tv.setText(getResources().getText(R.string.mainquiz_h4));
+        tv.setVisibility(View.VISIBLE);
         tv = mainview.findViewById(R.id.textview5);
-        tv.setVisibility(View.GONE);
+        tv.setText(getResources().getText(R.string.mainquiz_h7));
+        tv.setVisibility(View.VISIBLE);
         tv = mainview.findViewById(R.id.textview6);
         tv.setVisibility(View.GONE);
         ProgressBar pr = mainview.findViewById(R.id.progressBar);
-        pr.setVisibility(View.GONE);
-        ImageView iv = mainview.findViewById(R.id.quesimg);
+        pr.setVisibility(View.VISIBLE);
+        ImageButton ib = mainview.findViewById(R.id.imageButton);
+        ib.setVisibility(View.GONE);
+        ConstraintLayout cl = mainview.findViewById(R.id.imagelayout);
+        cl.setVisibility(View.GONE);
+        ImageView iv = mainview.findViewById(R.id.imageView3);
         iv.setVisibility(View.GONE);
-        iv = mainview.findViewById(R.id.imageView3);
+        iv = mainview.findViewById(R.id.quesimg);
         iv.setVisibility(View.GONE);
         EditText ed = mainview.findViewById(R.id.editText);
         ed.setText("");
-        ImageButton ib = mainview.findViewById(R.id.imageButton);
-        ib.setVisibility(View.GONE);
         medprog = 100;
     }
     private void forward()
@@ -312,7 +323,8 @@ public class mainquiz extends Fragment {
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadres();
+                resetelements();
+                pubques();
             }
         });
     }
@@ -326,6 +338,8 @@ public class mainquiz extends Fragment {
 
     public void retans(String inp, boolean typ)
     {
+        if (ad!=null)
+            ad.dismiss();
         try {
             quizplay.qans = new JSONArray(inp);
             checkans();
@@ -367,6 +381,7 @@ public class mainquiz extends Fragment {
                     String ans = ed.getText().toString();
                     quizplay.qans.put(quizplay.itr, ans);
                     Log.i("JSON", String.valueOf(quizplay.qans));
+                    loadspindialog("Submitting answer to the server. Please wait...");
                     network nt = new network();
                     nt.nmq = mq;
                     nt.execute("9", ans, String.valueOf(quizplay.itr));
@@ -390,5 +405,21 @@ public class mainquiz extends Fragment {
             resetelements();
             pubques();
         }
+    }
+    private void loadspindialog(String inp)
+    {
+        adb = new AlertDialog.Builder(getContext());
+        LayoutInflater lf = getLayoutInflater();
+        View adbview = lf.inflate(R.layout.alert_spin2,null);
+        TextView tv = adbview.findViewById(R.id.headmsg);
+        String str;
+        if (inp!=null)
+            str= inp;
+        else
+        str = "Please wait while we communicate with the server...";
+        tv.setText(str);
+        adb.setView(adbview);
+        ad = adb.create();
+        ad = adb.show();
     }
 }

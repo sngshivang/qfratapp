@@ -25,10 +25,10 @@ public class firstrun extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstrun);
+        initializers();
         if (reader())
         {
             universals.setdefs(this);
-            initializers();
             setfolders();
             Intent it = new Intent(this,MainActivity.class);
             startActivity(it);

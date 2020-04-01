@@ -2,6 +2,7 @@ package com.share.contrify.qfrat;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Network;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,9 +36,9 @@ public class ftf extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    View fragview;
-    AlertDialog.Builder adb;
-    AlertDialog ad;
+    private View fragview;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,7 +82,6 @@ public class ftf extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragview = inflater.inflate(R.layout.fragment_ftf, container, false);
-        adb = new AlertDialog.Builder(getContext());
         listeners();
         return fragview;
     }
@@ -160,13 +161,38 @@ public class ftf extends Fragment {
             Log.e("ftf",e.toString());
         }
         Log.i("qid",qid);
-        loadspindialog();
-        network nt = new network();
-        nt.ft = this;
-        nt.execute("5",qid);
+        if (universals.name.equals("nf"))
+        {
+            adb = new AlertDialog.Builder(getContext());
+            adb.setTitle("NOT LOGGED IN");
+            adb.setMessage("You are not logged in. Do you want to login now?");
+            adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (ad!=null)
+                        ad.dismiss();
+                }
+            });
+            ad = adb.create();
+            ad = adb.show();
+
+        }
+        else {
+            loadspindialog();
+            network nt = new network();
+            nt.ft = this;
+            nt.execute("5", qid);
+        }
 
     }
     void retcall(String data) {
+        adb = new AlertDialog.Builder(getContext());
         if (ad != null)
             ad.dismiss();
         if (data.equals("ERR")) {
@@ -186,7 +212,6 @@ public class ftf extends Fragment {
                         adb.setTitle("QUIZ NOT STARTED");
                         adb.setMessage("This quiz has not yet started, please wait till " + sdatm);
                         adb.show();
-                        fetchques();
                         break;
                     case "61":
                         adb.setTitle("SERVER ERROR");
@@ -213,11 +238,6 @@ public class ftf extends Fragment {
         if (ad!=null)
             ad.dismiss();
         mListener.fetchques(inp);
-        mainquiz mq = new mainquiz();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, mq);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Navigation.findNavController(fragview).navigate(R.id.action_ftf_to_mainquiz);
     }
 }

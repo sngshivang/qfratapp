@@ -14,10 +14,31 @@
         android:id="@+id/ftf"
         android:name="com.share.contrify.qfrat.ftf"
         android:label="fragment_ftf"
-        tools:layout="@layout/fragment_ftf" />
+        tools:layout="@layout/fragment_ftf" >
+        <action
+            android:id="@+id/action_ftf_to_mainquiz"
+            app:destination="@id/mainquiz"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
         android:id="@+id/quizlist"
         android:name="com.share.contrify.qfrat.quizlist"
         android:label="fragment_quizlist"
-        tools:layout="@layout/fragment_quizlist" />
+        tools:layout="@layout/fragment_quizlist" >
+        <action
+            android:id="@+id/action_quizlist_to_ftf"
+            app:destination="@id/ftf"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/quiz_conc"
+        android:name="com.share.contrify.qfrat.quiz_conc"
+        android:label="fragment_quiz_conc"
+        tools:layout="@layout/fragment_quiz_conc" />
 </navigation>

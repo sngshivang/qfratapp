@@ -4,16 +4,21 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavGraph;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -39,7 +44,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class MainActivity extends AppCompatActivity implements signup_frag.OnFragmentInteractionListener, testfragment.OnFragmentInteractionListener, login_frag.OnFragmentInteractionListener, sess_reset.OnFragmentInteractionListener, attemptlogin.OnFragmentInteractionListener, newsfrag.OnFragmentInteractionListener, signout.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements signup_frag.OnFragmentInteractionListener, testfragment.OnFragmentInteractionListener, login_frag.OnFragmentInteractionListener, sess_reset.OnFragmentInteractionListener, attemptlogin.OnFragmentInteractionListener, newsfrag.OnFragmentInteractionListener, signout.OnFragmentInteractionListener, about.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
         setContentView(R.layout.activity_main);
         dl = findViewById(R.id.testdraw);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        apbr = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(dl).build();
+        ng = navController.getGraph();
+        apbr = new AppBarConfiguration.Builder(ng).setDrawerLayout(dl).build();
          mytoolbar = findViewById(R.id.my_toolbar);
         mytoolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(mytoolbar);
@@ -58,29 +64,20 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
         ab.setLogo(R.drawable.qfrat_logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
-        abdt = new ActionBarDrawerToggle(this,dl, R.string.ftf_b1, R.string.ftf_h2);
         //Toolbar toolbar = findViewById(R.id.my_toolbar);
         navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupWithNavController(mytoolbar, navController, apbr);
+
         /*mytoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("LOG_TAG", "navigation clicked");
             }
         });*/
-        if (!universals.name.equals("nf"))
-        {
-            /*NavOptions navOptions = new NavOptions.Builder()
-                    .setPopUpTo(R.id.testfragment, true)
-                    .build();
-            navController.navigate(R.id.action_attemptlogin_to_testfragment, savedInstanceState, navOptions);*/
-            /*NavGraph bg = navController.getGraph();
-            bg.setStartDestination(R.id.attemptlogin);
-            navController.setGraph(bg);*/
-        }
-        navhead();
+        inputintent();
         navdrawer(navView);
+        triggerstuff();
 
     }
     AppBarConfiguration apbr;
@@ -88,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
     DrawerLayout dl;
     NavController navController;
     NavigationView navView;
+    Menu umenu;
+    NavGraph ng;
     ActionBarDrawerToggle abdt;
     static JSONArray news;
     static int newspos;
@@ -101,22 +100,7 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.miProfile:
-                FragmentManager fr = this.getSupportFragmentManager();
-                FragmentTransaction ft = fr.beginTransaction();
-                if (universals.name.equals("nf")) {
-                    login_frag lf = new login_frag();
-                    ft.replace(R.id.nav_host_fragment, lf);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                }
-                else
-                {
-                    signout so = new signout();
-                    ft.replace(R.id.nav_host_fragment, so);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                }
-                return  true;
+                inorout();
                 default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -124,20 +108,23 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
 
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu, this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        umenu = menu;
+        triggerstuff();
         return true;
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }*/
+    @Override
+    public void triggerstuff()
+    {
+        navhead();
+        if (umenu!=null&&!universals.name.equals("nf"))
+            umenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.profile_green));
+        else if (umenu!=null)
+            umenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.profile_white));
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -179,13 +166,88 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
                             case R.id.nav_qms:
                                 Intent it = new Intent(MainActivity.this, quizplay.class);
                                 startActivity(it);
-
+                                break;
+                            case R.id.nav_abt:
+                                FragmentManager fm = getSupportFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
+                                about ab = new about();
+                                ft.add(R.id.nav_host_fragment, ab);
+                                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+                                ft.addToBackStack(null);
+                                ft.commit();
+                                dl.closeDrawers();
+                                break;
+                            case R.id.nav_log:
+                                inorout();
+                                dl.closeDrawers();
+                                break;
+                            case R.id.nav_so:
+                                inorout();
+                                dl.closeDrawers();
+                                break;
 
                         }
                         return true;
                     }
                 });
     }
+    private void inputintent()
+    {
+        Intent it = getIntent();
+        String opt = it.getStringExtra("OPT");
+        try {
+            NavDestination id = navController.getCurrentDestination();
+            NavDestination md = ng.findNode(R.id.testfragment);
+            while (id != md)
+            {
+                navController.navigateUp();
+                id = navController.getCurrentDestination();
+            }
+        if (opt==null) {
+            opt = "null";
+            if (!universals.name.equals("nf"))
+            {
+                navController.navigate(R.id.action_testfragment_to_attemptlogin);
+            }
+        }
+        Log.i("inputintent",opt);
+        if (opt==null)
+            opt="";
+        if (opt.equals("3"))
+        {
+            if (!universals.name.equals("nf"))
+                navController.navigate(R.id.action_testfragment_to_signout2);
+            else
+            navController.navigate(R.id.action_testfragment_to_login_frag);
 
+        }
+        }
+        catch (Exception e)
+        {
+            Log.e("inorout",e.toString());
+        }
+    }
+    private void inorout()
+    {
+        try {
+            NavDestination id = navController.getCurrentDestination();
+            NavDestination md = ng.findNode(R.id.testfragment);
+            //NavDestination nd = navController.
+            while (id != md)
+            {
+                navController.popBackStack();
+                id = navController.getCurrentDestination();
+            }
+
+            if (!universals.name.equals("nf"))
+            navController.navigate(R.id.action_testfragment_to_signout2);
+        else
+            navController.navigate(R.id.action_testfragment_to_login_frag);
+        }
+        catch (Exception e)
+        {
+            Log.e("inorout",e.toString());
+        }
+    }
 
 }

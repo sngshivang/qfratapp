@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
@@ -47,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.android.material.bottomnavigation.BottomNavigationView.*;
 
-public class quizplay extends AppCompatActivity implements quizlist.OnFragmentInteractionListener, ftf.OnFragmentInteractionListener, mainquiz.OnFragmentInteractionListener{
+public class quizplay extends AppCompatActivity implements quizlist.OnFragmentInteractionListener, ftf.OnFragmentInteractionListener, mainquiz.OnFragmentInteractionListener, about.OnFragmentInteractionListener, quiz_conc.OnFragmentInteractionListener{
     private Toolbar mytoolbar;
     NavController navController;
     NavigationView navView;
@@ -75,45 +76,21 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
         navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupWithNavController(mytoolbar, navController, apbr);
-        navhead();
         navdrawer(navView);
-        //Fragment fr = findViewById(R.id.nav_host_fragment);
-        /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        NavigationUI.setupWithNavController(bottomNav, navController);
-        /*toolbar = getSupportActionBar();
-
-        BottomNavigationView navigation = findViewById(R.id.bottom_nav);
-
-        toolbar.setTitle("Shop");*/
-        //bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navhead();
     }
 
     static int pos,itr, utme, utqu;
     static String ques;
     static JSONArray que,typ,res,qud,posi,neg,qans;
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miProfile:
-                FragmentManager fr = this.getSupportFragmentManager();
-                FragmentTransaction ft = fr.beginTransaction();
-                login_frag lf = new login_frag();
-                ft.replace(R.id.nav_host_fragment, lf);
-                ft.commit();
-                return  true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu, this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (!universals.name.equals("nf"))
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.profile_green));
+        else
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.profile_white));
         return true;
     }
     @Override
@@ -202,6 +179,7 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
                 public void onFinish() {
                     String set = "END";
                     tv1.setText(set);
+                    gotoconc();
                 }
             }.start();
         }
@@ -228,7 +206,7 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
         Resources rs = this.getResources();
         int px = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                60,
+                52,
                 rs.getDisplayMetrics()
         );
         if (!stat)
@@ -250,11 +228,24 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
                         switch (menuItem.getItemId())
                         {
                             case R.id.nav_news:
-                                Log.i("drawer","News drawer clicked");
+                                navigatetomain("1");
                                 break;
-                            case R.id.nav_qms:
-                                Intent it = new Intent(quizplay.this, quizplay.class);
-                                startActivity(it);
+                                case R.id.nav_abt:
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            about ab = new about();
+                            ft.add(R.id.nav_host_fragment, ab);
+                            ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                            dl.closeDrawers();
+                            break;
+                            case R.id.nav_log:
+                                navigatetomain("3");
+                                break;
+                            case R.id.nav_so:
+                                navigatetomain("3");
+                                break;
 
 
                         }
@@ -266,11 +257,49 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
     {
         View head = navView.getHeaderView(0);
         TextView tv = head.findViewById(R.id.textView4);
-        String conc = "Welcome "+universals.name;
+        String conc, em;
+        if (universals.name==null || universals.name.equals("nf")) {
+            conc = "Not Logged IN";
+            em = "Not Available";
+        }
+        else{
+            conc = "Welcome "+universals.name;
+            em = universals.email;
+        }
         tv.setText(conc);
         tv = head.findViewById(R.id.nav_urname);
-        tv.setText(universals.email);
+        tv.setText(em);
 
+    }
+    private void navigatetomain(String val)
+    {
+        Intent it = new Intent(this, MainActivity.class);
+        it.putExtra("OPT", val);
+        startActivity(it);
+    }
+    private void gotoconc()
+    {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        quiz_conc qc = new quiz_conc();
+        ft.add(R.id.nav_host_fragment, qc);
+        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.addToBackStack(null);
+        ft.commit();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miProfile:
+                navigatetomain("3");
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
 }

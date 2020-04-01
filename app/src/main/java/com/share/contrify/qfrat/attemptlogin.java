@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -223,12 +225,7 @@ public class attemptlogin extends Fragment {
                 signout();
                 if (cd  == 12)
                 {
-                    sess_reset sr = new sess_reset();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_host_fragment, sr);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Navigation.findNavController(mainview).navigate(R.id.action_attemptlogin_to_sess_reset);
 
                 }
                 else {
@@ -274,12 +271,8 @@ public class attemptlogin extends Fragment {
         }
         else
         {
-            testfragment tf = new testfragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.nav_host_fragment, tf);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Navigation.findNavController(mainview).navigate(R.id.action_attemptlogin_to_testfragment);
+
         }
     }
     Runnable newexp = new Runnable() {

@@ -230,16 +230,6 @@ public class testfragment extends Fragment {
                 MainActivity.newspos = pos;
 
                 Navigation.findNavController(view).navigate(R.id.action_testfragment_to_newsfrag);
-                //mListener.jumptonewsfrag();
-                //newsfrag nfg = new newsfrag();
-
-                /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.slide_out_right,
-                        android.R.anim.slide_in_left);
-                fragmentTransaction.replace(R.id.nav_host_fragment, nfg);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
 
             }
             });

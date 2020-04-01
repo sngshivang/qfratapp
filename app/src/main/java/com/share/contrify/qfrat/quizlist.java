@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -128,14 +129,7 @@ public class quizlist extends Fragment {
                         adb.show();
                     }
                     mListener.sendtoparent(pos);
-                    ftf sf = new ftf();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                            android.R.anim.fade_out);
-                    fragmentTransaction.replace(R.id.nav_host_fragment, sf);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Navigation.findNavController(mainview).navigate(R.id.action_quizlist_to_ftf);
                 }
                 catch (Exception e)
                 {

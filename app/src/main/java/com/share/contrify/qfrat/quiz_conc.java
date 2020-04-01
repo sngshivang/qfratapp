@@ -1,30 +1,27 @@
 package com.share.contrify.qfrat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import static com.share.contrify.qfrat.universals.mGoogleSignInClient;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link signout.OnFragmentInteractionListener} interface
+ * {@link quiz_conc.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link signout#newInstance} factory method to
+ * Use the {@link quiz_conc#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class signout extends Fragment {
+public class quiz_conc extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +34,7 @@ public class signout extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public signout() {
+    public quiz_conc() {
         // Required empty public constructor
     }
 
@@ -47,11 +44,11 @@ public class signout extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment signout.
+     * @return A new instance of fragment quiz_conc.
      */
     // TODO: Rename and change types and number of parameters
-    public static signout newInstance(String param1, String param2) {
-        signout fragment = new signout();
+    public static quiz_conc newInstance(String param1, String param2) {
+        quiz_conc fragment = new quiz_conc();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,8 +69,8 @@ public class signout extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mainview = inflater.inflate(R.layout.fragment_signout, container, false);
-        listener();
+        mainview = inflater.inflate(R.layout.fragment_quiz_conc, container, false);
+        listeners();
         return mainview;
     }
 
@@ -113,34 +110,22 @@ public class signout extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void triggerstuff();
         void onFragmentInteraction(Uri uri);
     }
-    private void listener()
+    private void listeners()
     {
-        Button bt2 = mainview.findViewById(R.id.signout);
-        bt2.setOnClickListener(new View.OnClickListener() {
+        Button bt = mainview.findViewById(R.id.homebut);
+        bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signout();
-
+                navigatetomain();
             }
         });
     }
-    private void signout()
+    private void navigatetomain()
     {
-        if (mGoogleSignInClient!=null)
-        mGoogleSignInClient.signOut();
-        network nw = new network();
-        nw.so = this;
-        nw.execute("12");
-    }
-    public void retsignout(String inp)
-    {
-        Log.i("signout",inp);
-        universals.sysfile2cr(getContext(),"nf", "nf", "nf", "nf", false);
-        universals.setdefs(getContext());
-        Navigation.findNavController(mainview).navigate(R.id.action_signout2_to_testfragment);
-        mListener.triggerstuff();
+        Intent it = new Intent(getContext(), MainActivity.class);
+        it.putExtra("OPT", "1");
+        startActivity(it);
     }
 }

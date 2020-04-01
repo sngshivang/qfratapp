@@ -105,15 +105,6 @@
             app:layout_constraintTop_toBottomOf="@id/loginbut"
             app:layout_constraintStart_toEndOf="@id/signupbut"/>
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="126dp"
-            android:text="Button"
-            app:layout_constraintStart_toEndOf="@+id/googsignin"
-            app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
         <TextView
             android:id="@+id/textview7"

@@ -51,6 +51,8 @@ public class network extends AsyncTask <String,Void,String> {
                 String capt = params[6];
                 url = "https://www.qfrat.co.in/php/signupbackend.php";
                 data = "gresp="+capt+"&ANDAPP=1&email="+un+"&pwd="+pw+"&repwd="+pw+"&name="+nm+"&mob="+mob+"&remember=0&colbr="+col;
+                if (pref.equals("13"))
+                    data = "gresp="+capt+"&ANDAPP=1&email="+un+"&pwd="+pw+"&repwd="+pw+"&name="+nm+"&mob="+mob+"&remember=0&goog=1&colbr="+col;
             }
             else if (pref.equals("2"))
             {
@@ -91,7 +93,7 @@ public class network extends AsyncTask <String,Void,String> {
             }
             else if (pref.equals("10"))
             {
-                url = "http://newsapi.org/v2/top-headlines?" +
+                url = "https://newsapi.org/v2/top-headlines?" +
                     "country=us&" +
                     "apiKey=250aa58578a64814abcc32e58c068b30";
             }
@@ -114,7 +116,7 @@ public class network extends AsyncTask <String,Void,String> {
                 data = "fn=rcr&email="+em;
             }
             URL urlu = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection)urlu.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection)urlu.openConnection();
             String reqst;
             if (!universals.phpsess.equals("nf")) {
                 reqst = "PHPSESSID=" + universals.phpsess + "; email=occupied;";
@@ -161,7 +163,7 @@ public class network extends AsyncTask <String,Void,String> {
     @Override
     public void onPostExecute(String inp)
     {
-        if (pref.equals("0") || pref.equals("13") || pref.equals("11")) {
+        if (pref.equals("0") || pref.equals("11")) {
             if (lf!=null)
             lf.netret(inp, lf);
             if (al!=null)
@@ -195,5 +197,7 @@ public class network extends AsyncTask <String,Void,String> {
         }
         else if(pref.equals("14"))
             lf.respwres(inp);
+        else if (pref.equals("13"))
+            lf.googretcall(inp);
     }
 }

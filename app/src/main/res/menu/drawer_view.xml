@@ -13,6 +13,9 @@
         <item
             android:id="@+id/nav_abt"
             android:title="@string/nav1_h4"/>
+        <item
+            android:id="@+id/nav_so"
+            android:title="@string/signout_b1"/>
 
     </group>
 </menu>
