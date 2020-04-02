@@ -123,7 +123,7 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
     @Override
     public void ftffrag()
     {
-        modfragheight(false);
+        navigatetomain("3");
     }
     private void splitproc()
     {

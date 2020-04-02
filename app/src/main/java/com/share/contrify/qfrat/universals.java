@@ -20,7 +20,7 @@ public class universals {
     protected static ArrayList<JSONArray> arl;
     protected static JSONArray qids;
     public static JSONObject jsb;
-    protected static boolean isgoogle;
+    protected static boolean isgoogle, iswlcme;
     protected static ArrayList<Integer> qlt;
     static File stpth;
     protected static GoogleSignInClient mGoogleSignInClient;

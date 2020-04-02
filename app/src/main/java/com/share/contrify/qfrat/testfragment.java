@@ -2,6 +2,7 @@ package com.share.contrify.qfrat;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -103,6 +104,7 @@ public class testfragment extends Fragment {
         Log.i("Hello","this is a statement");
         mainview = inflater.inflate(R.layout.fragment_testfragment,
                 container, false);
+        //mListener.layoutmanip();
         instant();
         sendreq(false);
         listeners();
@@ -212,6 +214,7 @@ public class testfragment extends Fragment {
                 Log.e("testfragment", e.toString());
             }
         }
+        welcome();
 
     }
     private void listeners()
@@ -233,5 +236,31 @@ public class testfragment extends Fragment {
 
             }
             });
+    }
+    private void welcome()
+    {
+        if (!universals.iswlcme) {
+            adb = new AlertDialog.Builder(getContext());
+            adb.setTitle("Welcome to QFrat Beta");
+            adb.setMessage("If you want to play a quiz, select the appropriate option. You can always select the quiz option from the menu drawer icon on top left of this app.\n THIS APP IS IN BETA.");
+            adb.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (afcr != null)
+                        afcr.dismiss();
+                }
+            });
+            adb.setPositiveButton("PLAY QUIZ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent it = new Intent(getContext(), quizplay.class);
+                    startActivity(it);
+                }
+            });
+            adb.setCancelable(false);
+            afcr = adb.create();
+            afcr = adb.show();
+            universals.iswlcme = true;
+        }
     }
 }

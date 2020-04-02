@@ -4,9 +4,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -21,18 +23,27 @@ import androidx.navigation.ui.NavigationUI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -78,6 +89,25 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
         inputintent();
         navdrawer(navView);
         triggerstuff();
+        layoutmanip2();
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        //AdSize ads = new AdSize(320,50);
+        //mAdView.setAdSize(ads);
+        //mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111")
+        // ;
+        try {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        catch (Exception e)
+        {
+            Log.e("ADERROR", e.toString());
+        }
 
     }
     AppBarConfiguration apbr;
@@ -86,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
     NavController navController;
     NavigationView navView;
     Menu umenu;
+    private AdView mAdView;
     NavGraph ng;
     ActionBarDrawerToggle abdt;
     static JSONArray news;
@@ -249,5 +280,38 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
             Log.e("inorout",e.toString());
         }
     }
+    public void layoutmanip2()
+    {
+        final ConstraintLayout dl = findViewById(R.id.content_frame);
+        dl.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()  {
+            @Override
+            public void onGlobalLayout() {
+                int hei = dl.getMeasuredHeight();
+                //dl.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                final TypedArray styledAttributes = MainActivity.this.getTheme().obtainStyledAttributes(
+                        new int[]{android.R.attr.actionBarSize});
+                final int mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+                styledAttributes.recycle();
+                int ad = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                final int net = hei - mActionBarSize - ad;
+                final FragmentContainerView ft = findViewById(R.id.nav_host_fragment);
+                ft.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()  {
+                    @Override
+                    public void onGlobalLayout() {
+                        int hei = ft.getHeight();
+                        ft.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        ConstraintLayout.LayoutParams fl = (ConstraintLayout.LayoutParams) ft.getLayoutParams();
+                        fl.height = net;
+                        ft.setLayoutParams(fl);
+                    }});
+
+
+            }
+        });
+    }
+
+
+
+
 
 }
