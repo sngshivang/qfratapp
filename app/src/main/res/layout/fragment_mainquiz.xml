@@ -141,18 +141,46 @@
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:background="@drawable/edittext_des"
-            android:inputType="textPersonName"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:hint="@string/mainquiz_ed1"
-            android:padding="10dp"
             android:autofillHints="@string/mainquiz_ed1"
-            tools:layout_editor_absoluteX="176dp"
-            tools:layout_editor_absoluteY="79dp"
+            android:background="@drawable/edittext_des"
+            android:ems="10"
+            android:hint="@string/mainquiz_ed1"
+            android:inputType="textPersonName"
+            android:padding="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview2"/>
+            app:layout_constraintTop_toBottomOf="@id/textview2" />
+
+        <TextView
+            android:id="@+id/textview7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/mainquiz_h9"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editText">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textview8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/calibri"
+            android:text="@string/mainquiz_h10"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/textview7"
+            app:layout_constraintTop_toBottomOf="@id/editText">
+
+        </TextView>
 
 
         <ImageView
@@ -165,7 +193,7 @@
             tools:layout_editor_absoluteX="197dp"
             tools:layout_editor_absoluteY="33dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editText"/>
+            app:layout_constraintTop_toBottomOf="@id/textview7"/>
 
 
         <TextView
@@ -180,7 +208,7 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@id/editText">
+            app:layout_constraintTop_toBottomOf="@id/textview7">
 
         </TextView>
 

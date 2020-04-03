@@ -242,7 +242,7 @@ public class testfragment extends Fragment {
         if (!universals.iswlcme) {
             adb = new AlertDialog.Builder(getContext());
             adb.setTitle("Welcome to QFrat Beta");
-            adb.setMessage("If you want to play a quiz, select the appropriate option. You can always select the quiz option from the menu drawer icon on top left of this app.\n THIS APP IS IN BETA.");
+            adb.setMessage("If you want to play a quiz, select the appropriate option. You can always select the quiz option from the menu drawer icon on top left of this app.\n\nNote:- This APP may require restart on some devices after fresh install.\n\n THIS APP IS IN BETA.");
             adb.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

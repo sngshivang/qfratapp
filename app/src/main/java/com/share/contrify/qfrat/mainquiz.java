@@ -98,7 +98,7 @@ public class mainquiz extends Fragment {
         quizplay.itr = 0;
         mainview = inflater.inflate(R.layout.fragment_mainquiz, container, false);
         resetelements();
-        pubques();
+        pubques(true);
         listeners();
         loadans();
         submit();
@@ -146,7 +146,7 @@ public class mainquiz extends Fragment {
         void invokeNavMethods();
         void incrques();
     }
-    private void pubques()
+    private void pubques(boolean relo)
     {
         int pos = quizplay.itr;
         mListener.incrques();
@@ -155,12 +155,20 @@ public class mainquiz extends Fragment {
             checkans();
             tv.setText(decode(quizplay.que.getString(pos)));
             String res = quizplay.res.getString(pos);
+            tv  = mainview.findViewById(R.id.textview7);
+            String posi = quizplay.posi.getString(pos);
+            String neg = quizplay.neg.getString(pos);
+            posi = "CORRECT: "+posi;
+            neg ="WRONG: "+neg;
+            tv.setText(posi);
+            tv = mainview.findViewById(R.id.textview8);
+            tv.setText(neg);
             switch (res)
             {
                 case "YNN":
                     break;
                 case "YYN":
-                    loadres();
+                    loadres(relo);
                     break;
             }
         }
@@ -170,7 +178,7 @@ public class mainquiz extends Fragment {
         }
 
     }
-    private void loadres()
+    private void loadres(boolean relo)
     {
         ConstraintLayout cl = mainview.findViewById(R.id.imagelayout);
         ConstraintLayout cl2 = mainview.findViewById(R.id.content_frame);
@@ -182,7 +190,7 @@ public class mainquiz extends Fragment {
         try {
             String fln = quizplay.qud.getString(quizplay.itr);
             File fl = new File(universals.stpth + File.separator + (fln+"_pic.png"));
-            if (fl.exists())
+            if (relo&&fl.exists())
                 upprog(100);
             else {
                 network_res nr = new network_res();
@@ -218,6 +226,8 @@ public class mainquiz extends Fragment {
                 ImageView iv = mainview.findViewById(R.id.quesimg);
                 String fln = quizplay.qud.getString(quizplay.itr)+"_pic.png";
                 Bitmap bmp = BitmapFactory.decodeFile(universals.stpth + File.separator + fln);
+                ImageButton ib = mainview.findViewById(R.id.imageButton);
+                ib.setVisibility(View.VISIBLE);
                 iv.setImageBitmap(bmp);
                 iv.setVisibility(View.VISIBLE);
             }
@@ -280,7 +290,7 @@ public class mainquiz extends Fragment {
         {
             quizplay.itr++;
             resetelements();
-            pubques();
+            pubques(true);
         }
 
 
@@ -291,7 +301,7 @@ public class mainquiz extends Fragment {
         {
             quizplay.itr--;
             resetelements();
-            pubques();
+            pubques(true);
         }
 
 
@@ -324,7 +334,7 @@ public class mainquiz extends Fragment {
             @Override
             public void onClick(View view) {
                 resetelements();
-                pubques();
+                pubques(false);
             }
         });
     }
@@ -403,7 +413,7 @@ public class mainquiz extends Fragment {
         {
             quizplay.itr = val-1;
             resetelements();
-            pubques();
+            pubques(true);
         }
     }
     private void loadspindialog(String inp)

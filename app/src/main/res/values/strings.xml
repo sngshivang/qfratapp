@@ -32,6 +32,8 @@
     <string name="mainquiz_h7">0% Complete</string>
     <string name="mainquiz_h8">You have already answered this questions.\nRe-submit to modify</string>
     <string name="mainquiz_h5">Failed to load the resource. Do you want to</string>
+    <string name="mainquiz_h9">CORRECT: NA</string>
+    <string name="mainquiz_h10">WRONG: NA</string>
     <string name="mainquiz_h6">Retry?</string>
     <string name="mainquiz_b1">Submit</string>
     <string name="mainquiz_b2">Back</string>

@@ -169,6 +169,7 @@ public class ftf extends Fragment {
             adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    mListener.ftffrag();
 
                 }
             });
