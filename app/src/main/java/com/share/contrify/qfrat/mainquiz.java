@@ -158,8 +158,8 @@ public class mainquiz extends Fragment {
             tv  = mainview.findViewById(R.id.textview7);
             String posi = quizplay.posi.getString(pos);
             String neg = quizplay.neg.getString(pos);
-            posi = "CORRECT: "+posi;
-            neg ="WRONG: "+neg;
+            posi = "CORRECT+: "+posi;
+            neg ="WRONG-: "+neg;
             tv.setText(posi);
             tv = mainview.findViewById(R.id.textview8);
             tv.setText(neg);

@@ -222,7 +222,7 @@ public class attemptlogin extends Fragment {
             else{
                 universals.sysfile2cr(getContext(),"nf", "nf", "nf", js.getString("sid"), false);
                 universals.setdefs(getContext());
-                signout();
+                //signout();
                 if (cd  == 12)
                 {
                     Navigation.findNavController(mainview).navigate(R.id.action_attemptlogin_to_sess_reset);

@@ -44,7 +44,15 @@
         android:id="@+id/signup_frag"
         android:name="com.share.contrify.qfrat.signup_frag"
         android:label="fragment_signup_frag"
-        tools:layout="@layout/fragment_signup_frag" />
+        tools:layout="@layout/fragment_signup_frag" >
+        <action
+            android:id="@+id/action_signup_frag_to_testfragment"
+            app:destination="@id/testfragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
         android:id="@+id/login_frag"
         android:name="com.share.contrify.qfrat.login_frag"
@@ -80,6 +88,13 @@
         <action
             android:id="@+id/action_sess_reset_to_login_frag"
             app:destination="@id/login_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_sess_reset_to_testfragment"
+            app:destination="@id/testfragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

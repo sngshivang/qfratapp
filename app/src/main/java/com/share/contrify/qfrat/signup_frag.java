@@ -1,6 +1,7 @@
 package com.share.contrify.qfrat;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,15 +95,6 @@ public class signup_frag extends Fragment {
             @Override
             public void onClick(View v)
             {
-                signup();
-            }
-        });
-        Button button2 = vw.findViewById(R.id.signupvcapt);
-        button2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
                 vfcaptcha();
             }
         });
@@ -162,6 +155,7 @@ public class signup_frag extends Fragment {
                             // Validate the user response token using the
                             // reCAPTCHA siteverify API.
                             Log.d("Captcha_TAG", "VALIDATION STEP NEEDED");
+                            signup();
                         }
                     }
                 })
@@ -204,8 +198,13 @@ public class signup_frag extends Fragment {
             network nt = new network();
             nt.sf = this;
             nt.execute("1",un,pw,mob,nm,add,vlresp);
-
-
+        }
+        else
+        {
+            adb = new AlertDialog.Builder(getContext());
+            adb.setTitle("ERROR");
+            adb.setMessage("Please make sure that passwords match");
+            adb.show();
         }
     }
 
@@ -239,6 +238,14 @@ public class signup_frag extends Fragment {
             {
                 adb.setTitle("SUCCESS");
                 adb.setMessage("You have successfully registered this user account. Please login using this same information");
+                adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Navigation.findNavController(vw).navigate(R.id.action_signup_frag_to_testfragment);
+                    }
+                });
+                adb.setCancelable(false);
+                adb.create();
                 adb.show();
             }
             else

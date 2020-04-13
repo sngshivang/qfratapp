@@ -29,10 +29,17 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -50,6 +57,9 @@ import static com.google.android.material.bottomnavigation.BottomNavigationView.
 
 public class quizplay extends AppCompatActivity implements quizlist.OnFragmentInteractionListener, ftf.OnFragmentInteractionListener, mainquiz.OnFragmentInteractionListener, about.OnFragmentInteractionListener, quiz_conc.OnFragmentInteractionListener{
     private Toolbar mytoolbar;
+    private AdView mAdView;
+    private int topmar,botmar;
+    private boolean adtrip;
     NavController navController;
     NavigationView navView;
     DrawerLayout dl;
@@ -59,6 +69,7 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizplay);
+        adtrip = false;
         dl = findViewById(R.id.quizdraw);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         apbr = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(dl).build();
@@ -78,6 +89,35 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
         NavigationUI.setupWithNavController(mytoolbar, navController, apbr);
         navdrawer(navView);
         navhead();
+        botmar = 0;
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        try {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+        catch (Exception e)
+        {
+            Log.e("ADERROR", e.toString());
+        }
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded()
+            {
+                Log.i("AD","addloaded");
+                adtrip = true;
+                actionbarcalc(adtrip);
+            }
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.e("ADFAIL",String.valueOf(errorCode));
+            }
+
+        });
     }
 
     static int pos,itr, utme, utqu;
@@ -197,27 +237,23 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
     }
     public void modfragheight(boolean stat)
     {
-        FragmentContainerView fr = findViewById(R.id.nav_host_fragment);
-        ConstraintLayout.LayoutParams fl= (ConstraintLayout.LayoutParams)fr.getLayoutParams();
-        final TypedArray styledAttributes = this.getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
-        int sz = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
+        ConstraintLayout cl = findViewById(R.id.cntrlbar);
         Resources rs = this.getResources();
         int px = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 52,
                 rs.getDisplayMetrics()
         );
-        if (!stat)
-        px = 0;
+        if (!stat) {
+            px = 0;
+            cl.setVisibility(View.GONE);
+        }
         else
         {
-            ConstraintLayout cl = findViewById(R.id.cntrlbar);
             cl.setVisibility(View.VISIBLE);
         }
-        fl.setMargins(0, sz, 0, px);
-        fr.setLayoutParams(fl);
+        botmar = px;
+        actionbarcalc(adtrip);
     }
     private void navdrawer(NavigationView ngv)
     {
@@ -300,6 +336,58 @@ public class quizplay extends AppCompatActivity implements quizlist.OnFragmentIn
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+    public void layoutmanip2()
+    {
+        final ConstraintLayout dl = findViewById(R.id.content_frame);
+        dl.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()  {
+            @Override
+            public void onGlobalLayout() {
+                int hei = dl.getMeasuredHeight();
+                //dl.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                final TypedArray styledAttributes = quizplay.this.getTheme().obtainStyledAttributes(
+                        new int[]{android.R.attr.actionBarSize});
+                final int mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+                styledAttributes.recycle();
+                int ad = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                final int net = hei - mActionBarSize - ad;
+                final FragmentContainerView ft = findViewById(R.id.nav_host_fragment);
+                ft.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()  {
+                    @Override
+                    public void onGlobalLayout() {
+                        int hei = ft.getHeight();
+                        ft.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        ConstraintLayout.LayoutParams fl = (ConstraintLayout.LayoutParams) ft.getLayoutParams();
+                        fl.height = net;
+                        ft.setLayoutParams(fl);
+                    }});
+
+
+            }
+        });
+    }
+    private void actionbarcalc(boolean trip)
+    {
+        FragmentContainerView fr = findViewById(R.id.nav_host_fragment);
+        ConstraintLayout.LayoutParams fl= (ConstraintLayout.LayoutParams)fr.getLayoutParams();
+        final TypedArray styledAttributes = this.getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        int sz = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        int px = 0;
+        if (trip) {
+            Resources rs = this.getResources();
+            px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    50,
+                    rs.getDisplayMetrics()
+            );
+
+        }
+        topmar = sz+px;
+        fl.setMargins(0, topmar, 0, botmar);
+        fr.setLayoutParams(fl);
+
     }
 
 }

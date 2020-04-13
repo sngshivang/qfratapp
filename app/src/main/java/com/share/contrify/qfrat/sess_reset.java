@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import static com.share.contrify.qfrat.universals.mGoogleSignInClient;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +38,7 @@ public class sess_reset extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private View vw;
     private AlertDialog.Builder ab;
+    private AlertDialog ad;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -72,7 +75,6 @@ public class sess_reset extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ab = new AlertDialog.Builder(getActivity());
     }
 
     @Override
@@ -169,6 +171,7 @@ public class sess_reset extends Fragment {
     }
     private void yes()
     {
+        loadspindialog();
         network nw = new network();
         nw.sr = this;
         nw.execute("3");
@@ -176,6 +179,9 @@ public class sess_reset extends Fragment {
     }
     public void retcall(String inp)
     {
+        if (ad!=null)
+            ad.dismiss();
+        ab = new AlertDialog.Builder(getContext());
         if (inp.equals("ERR"))
         {
             ab.setTitle("ERROR");
@@ -193,16 +199,39 @@ public class sess_reset extends Fragment {
                     Navigation.findNavController(vw).navigate(R.id.action_sess_reset_to_login_frag);
                 }
             });
+            ab.setCancelable(false);
             ab.create();
             ab.show();
         }
     }
     private void no()
     {
-        ab.setTitle("SESSION CANCELLED");
-        ab.setMessage("Your this login session has been cancelled and you will be taken to the home activity.");
-        ab.show();
+        ab = new AlertDialog.Builder(getContext());
         universals.setter("nf", "nf", "nf","nf", false);
         universals.setdefs(getActivity());
+        ab.setTitle("SESSION CANCELLED");
+        ab.setMessage("Your this login session has been cancelled and you will be taken to the home activity.");
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Navigation.findNavController(vw).navigate(R.id.action_sess_reset_to_testfragment);
+            }
+        });
+        ab.setCancelable(false);
+        ab.create();
+        ab.show();
+
+    }
+    private void loadspindialog()
+    {
+        ab = new AlertDialog.Builder(getContext());
+        LayoutInflater lf = getLayoutInflater();
+        View adbview = lf.inflate(R.layout.alert_spin2,null);
+        TextView tv = adbview.findViewById(R.id.headmsg);
+        String str = "Please wait while we communicate with the server...";
+        tv.setText(str);
+        ab.setView(adbview);
+        ad = ab.create();
+        ad = ab.show();
     }
 }

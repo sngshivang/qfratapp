@@ -102,7 +102,7 @@ public class quizlist extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainview = inflater.inflate(R.layout.fragment_quizlist, container, false);
-
+        mListener.quizlistfrag();
         instant();
         sendreq();
         listeners();

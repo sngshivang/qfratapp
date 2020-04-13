@@ -82,6 +82,7 @@ public class ftf extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragview = inflater.inflate(R.layout.fragment_ftf, container, false);
+        mListener.quizlistfrag();
         listeners();
         return fragview;
     }
@@ -136,6 +137,7 @@ public class ftf extends Fragment {
         void onFragmentInteraction(Uri uri);
         void fetchques(String inp);
         void ftffrag();
+        void quizlistfrag();
     }
     private void loadspindialog()
     {

@@ -38,6 +38,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
         inputintent();
         navdrawer(navView);
         triggerstuff();
-        layoutmanip2();
+        //layoutmanip2();
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -108,6 +109,19 @@ public class MainActivity extends AppCompatActivity implements signup_frag.OnFra
         {
             Log.e("ADERROR", e.toString());
         }
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded()
+            {
+                Log.i("AD","addloaded");
+                layoutmanip2();
+            }
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.e("ADFAIL",String.valueOf(errorCode));
+            }
+
+        });
 
     }
     AppBarConfiguration apbr;
