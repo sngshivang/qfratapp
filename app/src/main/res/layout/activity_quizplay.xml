@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_marginBottom="0dp"
             android:id="@+id/cntrlbar"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_height="wrap_content">
 

@@ -55,7 +55,7 @@ public class attemptlogin extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private View mainview;
     private int ri;
-    private String scid = "867433872221-br6tp5c5i5e58eclsaga8mid8nbdlcbi.apps.googleusercontent.com";
+    private String scid = secrets.scid;
     private ArrayList<String> gstr;
     private Handler task;
     private boolean isgoog;

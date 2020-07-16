@@ -8,8 +8,8 @@ android {
         applicationId "com.share.contrify.qfrat"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.5"
+        versionCode 9
+        versionName "1.5.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

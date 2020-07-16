@@ -64,8 +64,11 @@ public class login_frag extends Fragment {
     private int reqc;
     private boolean isgoog;
     private ArrayList<String> gstr;
-    private String scid = "867433872221-br6tp5c5i5e58eclsaga8mid8nbdlcbi.apps.googleusercontent.com";
+    //private String scid = "867433872221-tmaj3t1i1hdkg44aaa022sdf3mn75is3.apps.googleusercontent.com";
+    //private String scid = "867433872221-acj6imnqbif6qeu9igkefm18j7b53oe5.apps.googleusercontent.com";
+    //private String scid = "867433872221-rk1n13sjfhavbl5r8s5naa98go2m2bto.apps.googleusercontent.com";
     String upwd = null;
+    private String scid = secrets.scid;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -251,6 +254,11 @@ public class login_frag extends Fragment {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            adb = new AlertDialog.Builder(getContext());
+            adb.setTitle("ERROR");
+            String msg = "Google Signin has failed due to misconfiguration. Please use the alternate login method.\nStatus code: "+e.getStatusCode();
+            adb.setMessage(msg);
+            adb.show();
         }
     }
 
